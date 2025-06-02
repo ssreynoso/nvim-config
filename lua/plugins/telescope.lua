@@ -20,10 +20,21 @@ return {
 
 		-- Keymaps
 		local builtin = require("telescope.builtin")
-		vim.keymap.set('n', '<C-p>', builtin.find_files, {})
+		vim.keymap.set('n', '<C-p>', function()
+			local utils = require("telescope.utils")
+			local is_git_repo = utils.get_os_command_output({ "git", "rev-parse", "--is-inside-work-tree" })[1] == "true"
+
+			if is_git_repo then
+				builtin.git_files()
+			else
+				builtin.find_files({
+					hidden = true,
+					file_ignore_patterns = { "%.git/", "node_modules/" },
+				})
+			end
+		end, { desc = '[P]roject [G]it-aware find' })
 		vim.keymap.set('n', '<leader>h', builtin.help_tags, { desc = '[S]earch [H]elp' })
 		vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-		vim.keymap.set('n', '<leader>pg', builtin.git_files, {})
 		vim.keymap.set('n', '<leader>f', builtin.live_grep, {})
 	end
 }
