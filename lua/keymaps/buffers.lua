@@ -1,0 +1,38 @@
+-- ~/.config/nvim/lua/keymaps/buffers.lua
+
+local M = {}
+
+function M.setup()
+	-- Navegación entre buffers estilo tabs
+	vim.keymap.set("n", "<Tab>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
+	vim.keymap.set("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
+
+	-- Cerrar buffer
+	vim.keymap.set("n", "<Leader>x", function()
+		local api = require("nvim-tree.api")
+
+		local current_buf = vim.api.nvim_get_current_buf()
+		local current_win = vim.api.nvim_get_current_win()
+
+		-- Cierra el buffer actual
+		vim.cmd("bdelete")
+
+		-- Si nvim-tree quedó enfocado, salta al buffer anterior
+		if vim.bo.filetype == "NvimTree" then
+			-- Intentamos ir al buffer anterior
+			local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+			for _, buf in ipairs(bufs) do
+				if buf.bufnr ~= current_buf then
+					vim.api.nvim_set_current_buf(buf.bufnr)
+					return
+				end
+			end
+		end
+	end, { desc = "Smart close buffer" })
+
+	-- Reordenar buffers
+	vim.keymap.set("n", "<Leader><Right>", "<cmd>BufferLineMoveNext<CR>", { desc = "Move buffer right" })
+	vim.keymap.set("n", "<Leader><Left>", "<cmd>BufferLineMovePrev<CR>", { desc = "Move buffer left" })
+end
+
+return M
