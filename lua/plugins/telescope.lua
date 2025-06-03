@@ -43,8 +43,23 @@ return {
 
         -- Keymaps
         vim.keymap.set("n", "<C-p>", function()
-            builtin.find_files({ hidden = true, no_ignore = false })
-        end, { desc = "[P]roject find files (con fd)" })
+            local utils = require("telescope.utils")
+            local is_git_repo = utils.get_os_command_output({ "git", "rev-parse", "--is-inside-work-tree" })[1]
+                == "true"
+
+            if is_git_repo then
+                builtin.git_files()
+            else
+                builtin.find_files({
+                    hidden = true,
+                    file_ignore_patterns = { "%.git/", "node_modules/" },
+                    no_ignore = false,
+                })
+            end
+        end, { desc = "[P]roject [G]it-aware find" })
+        -- vim.keymap.set("n", "<C-p>", function()
+        --     builtin.find_files({ hidden = true, no_ignore = false })
+        -- end, { desc = "[P]roject find files (con fd)" })
         vim.keymap.set("n", "<leader>pf", builtin.live_grep, { desc = "[F]ind text with grep" })
         vim.keymap.set("n", "<leader>ph", builtin.help_tags, { desc = "[H]elp" })
         vim.keymap.set("n", "<leader>pt", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
