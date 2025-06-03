@@ -8,11 +8,13 @@ function M.setup()
 	vim.keymap.set("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
 
 	-- Cerrar buffer
-	vim.keymap.set("n", "<Leader>x", function()
-		local api = require("nvim-tree.api")
-
+	vim.keymap.set("n", "<leader>w", function()
 		local current_buf = vim.api.nvim_get_current_buf()
-		local current_win = vim.api.nvim_get_current_win()
+
+		-- Guardar antes de cerrar
+		if vim.bo.modified then
+			vim.cmd("write")
+		end
 
 		-- Cierra el buffer actual
 		vim.cmd("bdelete")

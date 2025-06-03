@@ -5,22 +5,24 @@ return {
 	lazy = false,
 	build = ":TSUpdate",
 	config = function()
+		vim.g.skip_ts_context_commentstring_module = true
+
 		require("nvim-treesitter.configs").setup({
 			ensure_installed = {
 				"javascript",
 				"typescript",
-				"tsx",          -- JSX/TSX (React)
+				"tsx", -- JSX/TSX (React)
 				"html",
 				"css",
 				"json",
-				"jsonc",        -- para archivos como tsconfig.json o .eslintrc
-				"yaml",         -- por ejemplo en workflows o configs
-				"lua",          -- por tu config de neovim
-				"bash",         -- útil para scripts y terminal
-				"markdown",     -- para documentación o notas
+				"jsonc", -- para archivos como tsconfig.json o .eslintrc
+				"yaml", -- por ejemplo en workflows o configs
+				"lua", -- por tu config de neovim
+				"bash", -- útil para scripts y terminal
+				"markdown", -- para documentación o notas
 				"markdown_inline",
-				"vim",          -- ayuda con sintaxis de vimrc o plugins antiguos
-				"query"         -- requerido por treesitter para plugins que analizan árboles
+				"vim", -- ayuda con sintaxis de vimrc o plugins antiguos
+				"query", -- requerido por treesitter para plugins que analizan árboles
 			},
 
 			highlight = {
@@ -41,6 +43,5 @@ return {
 				},
 			},
 		})
-	end
+	end,
 }
-

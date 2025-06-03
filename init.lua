@@ -1,6 +1,6 @@
 local load = function(mod)
-	package.loaded[mod] = nil
-	require(mod)
+    package.loaded[mod] = nil
+    require(mod)
 end
 
 -- Config
@@ -9,4 +9,3 @@ require("config.options")
 require("config.auto-commands")
 require("config.user-commands")
 require("config.lazy")
-

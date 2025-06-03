@@ -1,5 +1,5 @@
 vim.opt.number = true -- Show the number of the lines.
-vim.opt.mouse = 'a' -- Allow the use of the mouse (?
+vim.opt.mouse = "a" -- Allow the use of the mouse (?
 vim.opt.showmode = false
 vim.opt.ignorecase = true -- When search, ignores uppercases. 'two' -> ['two', 'tWo', 'TWo', ...]
 vim.opt.smartcase = true -- When search, use the uppercase if we put it. 'tWo' -> ['tWo']
@@ -12,7 +12,7 @@ vim.opt.expandtab = false
 vim.opt.autochdir = false -- Bugs with telescope - plugin
 
 --- Keep signcolumn on by default
-vim.o.signcolumn = 'yes'
+vim.o.signcolumn = "yes"
 
 -- Decrease update time
 vim.o.updatetime = 250
@@ -33,10 +33,10 @@ vim.o.splitbelow = true
 --   See `:help lua-options`
 --   and `:help lua-options-guide`
 vim.o.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Preview substitutions live, as you type!
-vim.o.inccommand = 'split'
+vim.o.inccommand = "split"
 
 -- Show which line your cursor is on
 vim.o.cursorline = true
@@ -44,4 +44,5 @@ vim.o.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
 
--- Centered layout?
+-- Virtual text
+vim.diagnostic.config({ virtual_text = true })
