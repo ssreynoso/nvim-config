@@ -1,67 +1,58 @@
 return {
     "nvim-telescope/telescope.nvim",
-    tag = "0.1.8",
+    branch = "0.1.x",
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons",
+        {
+            "nvim-telescope/telescope-fzf-native.nvim",
+            build = "make",
+        },
         "folke/todo-comments.nvim",
     },
     config = function()
         local telescope = require("telescope")
-        local builtin = require("telescope.builtin")
+        local actions = require("telescope.actions")
+        local transform_mod = require("telescope.actions.mt").transform_mod
+
+        local trouble = require("trouble")
+        local trouble_telescope = require("trouble.sources.telescope")
+
+        -- or create your custom action
+        local custom_actions = transform_mod({
+            open_trouble_qflist = function(prompt_bufnr)
+                trouble.toggle("quickfix")
+            end,
+        })
 
         telescope.setup({
             defaults = {
-                find_command = {
-                    "fd",
-                    "--type",
-                    "f",
-                    "--strip-cwd-prefix",
-                    "--hidden",
-                    "--exclude",
-                    ".git",
-                    "--exclude",
-                    "node_modules",
-                },
-                layout_strategy = "horizontal",
                 sorting_strategy = "ascending",
-                winblend = 10,
+                layout_strategy = "horizontal",
                 layout_config = {
                     horizontal = { width = 0.9 },
-                    vertical = { width = 0.5 },
                 },
-                path_display = { "smart" },
-                file_ignore_patterns = {
-                    "%.git/", -- carpeta .git
-                    "node_modules/", -- node_modules
-                    "%.lock", -- archivos lock
-                    "%.out",
-                    "%.o", -- compilados
+                path_display = { "truncate" },
+                mappings = {
+                    i = {
+                        ["<C-k>"] = actions.move_selection_previous, -- move to prev result
+                        ["<C-j>"] = actions.move_selection_next, -- move to next result
+                        ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
+                        ["<C-t>"] = trouble_telescope.open,
+                    },
                 },
             },
         })
 
-        -- Keymaps
-        vim.keymap.set("n", "<C-p>", function()
-            local utils = require("telescope.utils")
-            local is_git_repo = utils.get_os_command_output({ "git", "rev-parse", "--is-inside-work-tree" })[1]
-                == "true"
+        telescope.load_extension("fzf")
 
-            if is_git_repo then
-                builtin.git_files()
-            else
-                builtin.find_files({
-                    hidden = true,
-                    file_ignore_patterns = { "%.git/", "node_modules/" },
-                    no_ignore = false,
-                })
-            end
-        end, { desc = "[P]roject [G]it-aware find" })
-        -- vim.keymap.set("n", "<C-p>", function()
-        --     builtin.find_files({ hidden = true, no_ignore = false })
-        -- end, { desc = "[P]roject find files (con fd)" })
-        vim.keymap.set("n", "<leader>pf", builtin.live_grep, { desc = "[F]ind text with grep" })
-        vim.keymap.set("n", "<leader>ph", builtin.help_tags, { desc = "[H]elp" })
-        vim.keymap.set("n", "<leader>pt", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
+        -- set keymaps
+        local keymap = vim.keymap -- for conciseness
+
+        keymap.set("n", "<C-p>", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
+        keymap.set("n", "<leader>pf", "<cmd>Telescope git_files<cr>", { desc = "Fuzzy find files in cwd" })
+        keymap.set("n", "<leader>pF", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
+        keymap.set("n", "<leader>ph", "<cmd>Telescope help_tags<cr>", { desc = "Find string under cursor in cwd" })
+        keymap.set("n", "<leader>pt", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
     end,
 }
