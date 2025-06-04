@@ -26,6 +26,11 @@ return {
                     },
                 },
             },
+            update_focused_file = {
+                enable = true,
+                update_root = false,
+                ignore_list = {},
+            },
             filters = {
                 git_ignored = false,
                 dotfiles = false,

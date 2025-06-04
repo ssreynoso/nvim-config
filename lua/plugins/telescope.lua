@@ -15,6 +15,9 @@ return {
         local actions = require("telescope.actions")
         local transform_mod = require("telescope.actions.mt").transform_mod
 
+        -- Icons
+        local devicons = require("nvim-web-devicons")
+
         local trouble = require("trouble")
         local trouble_telescope = require("trouble.sources.telescope")
 
@@ -46,6 +49,38 @@ return {
                 buffers = {
                     sort_mru = true,
                     ignore_current_buffer = true,
+                    previewer = false,
+                    layout_config = {
+                        width = 0.5,
+                        height = 0.7,
+                    },
+                    mappings = {
+                        i = {
+                            ["<c-d>"] = require("telescope.actions").delete_buffer,
+                        },
+                        n = {
+                            ["<c-d>"] = require("telescope.actions").delete_buffer,
+                        },
+                    },
+                    -- Customizar cómo se muestran los nombres
+                    entry_maker = function(entry)
+                        local bufname = vim.api.nvim_buf_get_name(entry.bufnr)
+                        local basename = vim.fn.fnamemodify(bufname, ":t")
+                        local icon, icon_hl = devicons.get_icon(basename, nil, { default = true })
+                        local is_modified = vim.api.nvim_buf_get_option(entry.bufnr, "modified")
+                        local modified = is_modified and " [+]" or ""
+
+                        return {
+                            value = entry,
+                            display = function()
+                                return string.format(" %s  %s%s", icon, basename, modified)
+                            end,
+                            ordinal = basename .. modified,
+                            bufnr = entry.bufnr,
+                            icon = icon,
+                            icon_hl_group = icon_hl,
+                        }
+                    end,
                 },
             },
         })
