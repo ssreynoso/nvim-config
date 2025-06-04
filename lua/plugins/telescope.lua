@@ -91,8 +91,8 @@ return {
         local keymap = vim.keymap -- for conciseness
 
         keymap.set("n", "<C-p>", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
-        keymap.set("n", "<leader>pf", "<cmd>Telescope git_files<cr>", { desc = "Fuzzy find files in cwd" })
-        keymap.set("n", "<leader>pF", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
+        keymap.set("n", "<leader>p", "<cmd>Telescope git_files<cr>", { desc = "Fuzzy find files in cwd" })
+        keymap.set("n", "<leader>pf", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
         keymap.set("n", "<leader>ph", "<cmd>Telescope help_tags<cr>", { desc = "Find string under cursor in cwd" })
         keymap.set("n", "<leader>pt", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
         keymap.set("n", "<leader>pb", "<cmd>Telescope buffers<cr>", { desc = "Buscar entre buffers abiertos" })

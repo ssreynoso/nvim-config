@@ -45,9 +45,25 @@ return {
                 local orange = "#FBA834"
                 local light_orange = "#ffcd81"
                 local violet = "#9a64ff"
+                local light_violet = "#bb9af7"
                 local white = "#ffffff"
                 local light_blue = "#B2D8CE"
                 local sand = "#FFF1D5"
+                local telescopeBorder = "#0E2148"
+
+                -- Personalización de colores
+                vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = telescopeBorder }) -- color del borde
+                vim.api.nvim_set_hl(0, "FloatBorder", { fg = telescopeBorder })
+                vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = telescopeBorder })
+                vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = telescopeBorder })
+                vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = telescopeBorder })
+
+                vim.api.nvim_set_hl(0, "TelescopeTitle", { fg = orange }) -- título general
+                vim.api.nvim_set_hl(0, "FloatTitle", { fg = orange }) -- título general
+                vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = orange })
+                vim.api.nvim_set_hl(0, "TelescopeResultsTitle", { fg = orange })
+                vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = orange })
+                vim.api.nvim_set_hl(0, "TelescopeNormal", { fg = white })
 
                 return {
                     -- Fondo y texto general
@@ -88,11 +104,6 @@ return {
                     -- NvimTree
                     NvimTreeNormal = { fg = white, bg = "#000000" },
                     NvimTreeCursorLine = { bg = "#111111" },
-
-                    -- Telescope
-                    TelescopeNormal = { fg = white, bg = "#000000" },
-                    TelescopeBorder = { fg = "#111111", bg = "#000000" },
-                    TelescopePromptTitle = { fg = orange },
 
                     -- TypeScript / JSX específico
                     Include = { fg = violet, italic = true },
