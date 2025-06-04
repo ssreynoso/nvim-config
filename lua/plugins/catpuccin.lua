@@ -71,7 +71,7 @@ return {
                     -- Tokens básicos
                     Comment = { fg = "#7f8c8d", italic = true },
                     String = { fg = "#fffdca" },
-                    Keyword = { fg = violet, bold = true },
+                    Keyword = { fg = violet },
                     Number = { fg = "#F78C6C" },
                     Operator = { fg = violet },
                     Function = { fg = orange },
@@ -102,7 +102,7 @@ return {
                     ["@type"] = { fg = light_blue },
 
                     -- JSX (React)
-                    ["@type.tsx"] = { fg = light_orange, bold = true }, -- <Component>
+                    ["@type.tsx"] = { fg = light_orange }, -- <Component>
                     ["@tag.builtin.tsx"] = { fg = "#73ffc5" }, -- HTML: <div>
                     ["@tag.tsx"] = { fg = light_orange }, -- <>
                     ["@variable"] = { fg = white },
