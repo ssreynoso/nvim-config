@@ -42,6 +42,12 @@ return {
                     },
                 },
             },
+            pickers = {
+                buffers = {
+                    sort_mru = true,
+                    ignore_current_buffer = true,
+                },
+            },
         })
 
         telescope.load_extension("fzf")
@@ -54,5 +60,6 @@ return {
         keymap.set("n", "<leader>pF", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
         keymap.set("n", "<leader>ph", "<cmd>Telescope help_tags<cr>", { desc = "Find string under cursor in cwd" })
         keymap.set("n", "<leader>pt", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
+        keymap.set("n", "<leader>pb", "<cmd>Telescope buffers<cr>", { desc = "Buscar entre buffers abiertos" })
     end,
 }

@@ -46,7 +46,8 @@ return {
                 local light_orange = "#ffcd81"
                 local violet = "#9a64ff"
                 local white = "#ffffff"
-                local light_blue = "#50C4ED"
+                local light_blue = "#B2D8CE"
+                local sand = "#FFF1D5"
 
                 return {
                     -- Fondo y texto general
@@ -76,7 +77,8 @@ return {
                     Operator = { fg = violet },
                     Function = { fg = orange },
                     Variable = { fg = white },
-                    Type = { fg = "#89DDFF" },
+                    Type = { fg = light_blue },
+                    Constant = { fg = sand },
 
                     -- Tabs
                     TabLine = { fg = white, bg = "#000000" },

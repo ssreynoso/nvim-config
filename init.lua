@@ -1,8 +1,3 @@
-local load = function(mod)
-    package.loaded[mod] = nil
-    require(mod)
-end
-
 -- Config
 require("config.remap")
 require("config.options")
