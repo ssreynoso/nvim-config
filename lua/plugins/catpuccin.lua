@@ -120,6 +120,9 @@ return {
                     -- Attributes
                     ["@_jsx_attribute.tsx"] = { fg = violet, italic = false },
                     ["@tag.attribute.tsx"] = { fg = violet, italic = false },
+
+                    -- Exceptions
+                    Exception = { fg = violet },
                 }
             end,
         })
