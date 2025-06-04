@@ -51,3 +51,9 @@ vim.o.scrolloff = 10
 
 -- Virtual text
 vim.diagnostic.config({ virtual_text = true })
+
+-- Terminal
+vim.keymap.set("n", "<leader>t", ":terminal<CR>", { noremap = true, silent = true })
+
+-- En modo terminal, presionar <Esc> para volver al modo normal
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
