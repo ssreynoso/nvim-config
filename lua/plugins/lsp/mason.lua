@@ -67,6 +67,7 @@ return {
                 end,
                 ["jsonls"] = function()
                     lspconfig.jsonls.setup({
+                        capabilities = capabilities,
                         settings = {
                             json = {
                                 format = { enable = false },
