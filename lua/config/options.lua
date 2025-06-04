@@ -8,7 +8,7 @@ vim.opt.wrap = true -- Make the text of long lines always visible.
 vim.opt.breakindent = true -- Preserve the identation of virtual lines.
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
-vim.opt.expandtab = false
+vim.opt.expandtab = true
 vim.opt.autochdir = false -- Bugs with telescope - plugin
 
 --- Keep signcolumn on by default
@@ -33,7 +33,12 @@ vim.o.splitbelow = true
 --   See `:help lua-options`
 --   and `:help lua-options-guide`
 vim.o.list = true
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+vim.opt.listchars = {
+    tab = "» ",
+    trail = "·",
+    space = "·", -- ← ¡esto es lo que te falta!
+    nbsp = "␣",
+}
 
 -- Preview substitutions live, as you type!
 vim.o.inccommand = "split"

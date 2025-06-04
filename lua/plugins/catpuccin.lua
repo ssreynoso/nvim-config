@@ -6,7 +6,7 @@ return {
     config = function()
         require("catppuccin").setup({
             flavour = "mocha",
-            transparent_background = true,
+            transparent_background = false,
             show_end_of_buffer = false,
             term_colors = false,
             no_italic = false,
@@ -30,6 +30,7 @@ return {
                 gitsigns = true,
                 nvimtree = true,
                 telescope = true,
+                treesitter = true,
                 notify = false,
                 mini = false,
             },
@@ -40,8 +41,88 @@ return {
                     crust = "#000000",
                 },
             },
+            custom_highlights = function(colors)
+                local orange = "#FBA834"
+                local light_orange = "#ffcd81"
+                local violet = "#9a64ff"
+                local white = "#ffffff"
+                local light_blue = "#50C4ED"
+
+                return {
+                    -- Fondo y texto general
+                    Normal = { fg = white, bg = "#000000" },
+                    Cursor = { fg = "#000000", bg = white },
+
+                    -- Selección y referencias
+                    Visual = { bg = "#404040" },
+                    LspReferenceText = { bg = "#303030" },
+                    LspReferenceRead = { bg = "#303030" },
+                    LspReferenceWrite = { bg = "#303030" },
+
+                    -- Semánticos LSP
+                    LspSemanticVariable = { fg = white },
+                    LspSemanticParameter = { fg = white },
+                    LspSemanticProperty = { fg = light_orange },
+                    LspSemanticMethod = { fg = "#ffb34f" },
+                    LspSemanticFunction = { fg = orange },
+                    LspSemanticClass = { fg = "#2eb2bb" },
+                    LspSemanticType = { fg = "#75bcff" },
+
+                    -- Tokens básicos
+                    Comment = { fg = "#7f8c8d", italic = true },
+                    String = { fg = "#fffdca" },
+                    Keyword = { fg = violet, bold = true },
+                    Number = { fg = "#F78C6C" },
+                    Operator = { fg = violet },
+                    Function = { fg = orange },
+                    Variable = { fg = white },
+                    Type = { fg = "#89DDFF" },
+
+                    -- Tabs
+                    TabLine = { fg = white, bg = "#000000" },
+                    TabLineSel = { fg = white, bg = "#000000", underline = true },
+                    TabLineFill = { bg = "#000000" },
+
+                    -- NvimTree
+                    NvimTreeNormal = { fg = white, bg = "#000000" },
+                    NvimTreeCursorLine = { bg = "#111111" },
+
+                    -- Telescope
+                    TelescopeNormal = { fg = white, bg = "#000000" },
+                    TelescopeBorder = { fg = "#111111", bg = "#000000" },
+                    TelescopePromptTitle = { fg = orange },
+
+                    -- TypeScript / JSX específico
+                    Include = { fg = violet, italic = true },
+                    Conditional = { fg = violet, italic = true },
+                    ["@keyword.export"] = { fg = violet, italic = true },
+                    ["@keyword.return"] = { fg = violet, italic = true },
+                    ["@operator"] = { fg = violet },
+                    ["@parameter"] = { fg = white },
+                    ["@type"] = { fg = light_blue },
+
+                    -- JSX (React)
+                    ["@type.tsx"] = { fg = light_orange, bold = true }, -- <Component>
+                    ["@tag.builtin.tsx"] = { fg = "#73ffc5" }, -- HTML: <div>
+                    ["@tag.tsx"] = { fg = light_orange }, -- <>
+                    ["@variable"] = { fg = white },
+                    ["@variable.builtin"] = { fg = white },
+                    ["@variable.parameter"] = { fg = white },
+                    ["@lsp.type.variable.typescript"] = { fg = white },
+                    ["@lsp.type.parameter.typescript"] = { fg = white },
+
+                    -- Properties
+                    ["@variable.member"] = { fg = light_orange },
+                    ["@lsp.type.property.typescript"] = { fg = light_orange },
+                    ["@lsp.type.member"] = { fg = light_orange }, -- opcional
+                    ["@property"] = { fg = light_orange }, -- fallback común
+
+                    -- Attributes
+                    ["@_jsx_attribute.tsx"] = { fg = violet, italic = false },
+                    ["@tag.attribute.tsx"] = { fg = violet, italic = false },
+                }
+            end,
         })
-        vim.cmd.colorscheme "catppuccin"
+        vim.cmd.colorscheme("catppuccin")
     end,
 }
-
