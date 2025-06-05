@@ -2,6 +2,10 @@
 
 This repository contains my Neovim configuration. Below is a reference of the custom key mappings defined across the configuration files.
 
+## Dependencies
+
+- Quicktype, install with `npm install -g quicktype`
+
 ## Table of Contents
 
 - [Leader keys](#leader-keys)

@@ -66,3 +66,6 @@ end
 
 -- En modo terminal, presionar <Esc> para volver al modo normal
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
+
+-- Borrar palabra completa
+vim.keymap.set("i", "<C-b>", "<C-w>", { desc = "Ctrl+Backspace borra palabra entera" })

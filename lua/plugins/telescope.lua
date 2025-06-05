@@ -96,5 +96,13 @@ return {
         keymap.set("n", "<leader>ph", "<cmd>Telescope help_tags<cr>", { desc = "Find string under cursor in cwd" })
         keymap.set("n", "<leader>pt", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
         keymap.set("n", "<leader>pb", "<cmd>Telescope buffers<cr>", { desc = "Buscar entre buffers abiertos" })
+
+        -- Quicktype + paste.
+        vim.api.nvim_create_user_command("PasteAsCode", function()
+            require("modules.quicktype").setup()
+            vim.cmd("PasteAsCode")
+        end, {})
+
+        vim.keymap.set("n", "<leader>pq", "<cmd>PasteAsCode<CR>", { desc = "Pegar JSON como código con quicktype" })
     end,
 }
