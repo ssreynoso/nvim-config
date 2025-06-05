@@ -100,14 +100,12 @@ function M.setup()
 
         -- 🔥 NUEVO: Cerrar modales flotantes si están abiertos
         local ok, floatter = pcall(require, "modules.floatter")
-        if ok then
-            if floatter.state then
-                if floatter.state.note and vim.api.nvim_win_is_valid(floatter.state.note.win) then
-                    vim.api.nvim_win_hide(floatter.state.note.win)
-                end
-                if floatter.state.terminal and vim.api.nvim_win_is_valid(floatter.state.terminal.win) then
-                    vim.api.nvim_win_hide(floatter.state.terminal.win)
-                end
+        if ok and floatter.state then
+            if floatter.state.note and vim.api.nvim_win_is_valid(floatter.state.note.win) then
+                floatter.toggle_note()
+            end
+            if floatter.state.terminal and vim.api.nvim_win_is_valid(floatter.state.terminal.win) then
+                floatter.toggle_terminal()
             end
         end
     end, { desc = "Smart close buffer" })

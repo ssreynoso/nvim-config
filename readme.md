@@ -32,7 +32,6 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 
 | Key         | Mode          | Action                                       |
 | ----------- | ------------- | -------------------------------------------- |
-| `<leader>w` | normal        | Save file                                    |
 | `<leader>s` | normal        | Save file                                    |
 | `x`         | normal/visual | Delete without affecting registers           |
 | `X`         | normal/visual | Delete selection without affecting registers |

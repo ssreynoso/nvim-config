@@ -68,30 +68,42 @@ function M.toggle_terminal()
 end
 
 function M.toggle_note()
-    if not vim.api.nvim_win_is_valid(state.note.win) then
-        local note_path = vim.fn.stdpath("data") .. "/.nvim_notepad.md"
-        local buf
+    local note_path = vim.fn.stdpath("data") .. "/.nvim_notepad.md"
+    local buf
 
+    -- ⚠️ Buscar el buffer ya abierto por nombre
+    for _, b in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_get_name(b) == note_path then
+            buf = b
+            break
+        end
+    end
+
+    -- Crear archivo si no existe
+    if not buf then
         if vim.fn.filereadable(note_path) == 0 then
             vim.fn.writefile({ "# 📒 Nota rápida", "" }, note_path)
         end
-
         buf = vim.fn.bufadd(note_path)
         vim.fn.bufload(buf)
+    end
 
+    local is_open = vim.api.nvim_win_is_valid(state.note.win)
+
+    if not is_open then
         state.note = create_floating_window({ buf = buf, title = "📒 Notepad" })
 
         vim.bo[buf].filetype = "markdown"
+        vim.bo[buf].swapfile = false
         vim.b[buf].floater_note = true
         vim.wo[state.note.win].number = true
         vim.wo[state.note.win].relativenumber = false
 
-        -- restaurar posición previa del cursor si existe
+        -- Restaurar posición previa
         if state.note_cursor then
             pcall(vim.api.nvim_win_set_cursor, state.note.win, state.note_cursor)
         end
 
-        -- guardar automáticamente la posición del cursor cuando se mueva
         vim.api.nvim_create_autocmd("CursorMoved", {
             buffer = buf,
             callback = function()
@@ -102,15 +114,13 @@ function M.toggle_note()
             desc = "Guardar posición de cursor de la nota",
         })
     else
-        if vim.api.nvim_win_is_valid(state.note.win) then
-            -- guardar la posición antes de cerrar
-            state.note_cursor = vim.api.nvim_win_get_cursor(state.note.win)
+        -- Guardar cursor y cerrar
+        state.note_cursor = vim.api.nvim_win_get_cursor(state.note.win)
 
-            -- guardar archivo si fue modificado
-            if vim.bo[state.note.buf].modified then
-                vim.cmd("write")
-            end
+        if vim.bo[state.note.buf].modified then
+            vim.cmd("write")
         end
+
         vim.api.nvim_win_hide(state.note.win)
     end
 end

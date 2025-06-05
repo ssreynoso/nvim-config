@@ -1,9 +1,6 @@
 vim.g.mapleader = " " -- Use space as <leader>
 vim.g.maplocalleader = "\\" -- Use space as <leader>
 
--- vim.keymap.set("n", "<leader>pd", vim.cmd.Ex) -- Disabled because of nvim-tree
-vim.keymap.set("n", "<leader>w", "<cmd>write<cr>", { desc = "Save" })
-
 -- Clipboard
 -- vim.keymap.set({'n', 'x'}, 'gy', '"+y') -- Copy to clipboard
 -- vim.keymap.set({'n', 'x'}, 'gp', '"+p') -- Paste from clipboard
@@ -13,7 +10,7 @@ vim.keymap.set("n", "<leader>w", "<cmd>write<cr>", { desc = "Save" })
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-	vim.o.clipboard = "unnamedplus"
+    vim.o.clipboard = "unnamedplus"
 end)
 
 -- Delete without changing the registers
