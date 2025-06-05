@@ -69,3 +69,7 @@ vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
 
 -- Borrar palabra completa
 vim.keymap.set("i", "<C-b>", "<C-w>", { desc = "Ctrl+Backspace borra palabra entera" })
+
+-- Visual: evitar sobrescribir al hacer p o P
+vim.keymap.set("x", "p", '"_dP', { noremap = true, desc = "Pegar después sin sobrescribir" })
+vim.keymap.set("x", "P", '"_dP', { noremap = true, desc = "Pegar antes sin sobrescribir" })
