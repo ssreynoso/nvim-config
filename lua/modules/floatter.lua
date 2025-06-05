@@ -48,10 +48,18 @@ local function create_floating_window(opts)
 end
 
 function M.toggle_terminal()
+    local uname = vim.loop.os_uname()
+    local is_windows = uname.sysname == "Windows_NT"
+    local is_wsl = uname.release:match("Microsoft") ~= nil
+
     if not vim.api.nvim_win_is_valid(state.terminal.win) then
         state.terminal = create_floating_window({ buf = state.terminal.buf, title = "🖥️ Terminal" })
         if vim.bo[state.terminal.buf].buftype ~= "terminal" then
-            vim.cmd("terminal")
+            if is_windows and not is_wsl then
+                vim.cmd("terminal wsl")
+            else
+                vim.cmd("terminal")
+            end
             vim.b.floater_terminal = true
         end
     else
@@ -97,6 +105,11 @@ function M.toggle_note()
         if vim.api.nvim_win_is_valid(state.note.win) then
             -- guardar la posición antes de cerrar
             state.note_cursor = vim.api.nvim_win_get_cursor(state.note.win)
+
+            -- guardar archivo si fue modificado
+            if vim.bo[state.note.buf].modified then
+                vim.cmd("write")
+            end
         end
         vim.api.nvim_win_hide(state.note.win)
     end

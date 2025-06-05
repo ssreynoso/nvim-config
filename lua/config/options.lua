@@ -52,7 +52,17 @@ vim.o.scrolloff = 10
 vim.diagnostic.config({ virtual_text = true })
 
 -- Terminal
-vim.keymap.set("n", "<leader>tn", ":terminal<CR>", { noremap = true, silent = true })
+local uname = vim.loop.os_uname()
+local is_windows = uname.sysname == "Windows_NT"
+local is_wsl = uname.release:match("Microsoft") ~= nil
+
+if is_windows and not is_wsl then
+    -- Windows puro: abrimos WSL como terminal
+    vim.keymap.set("n", "<leader>tn", ":terminal wsl<CR>", { noremap = true, silent = true })
+else
+    -- Linux o WSL: terminal normal (ya estamos en entorno Unix)
+    vim.keymap.set("n", "<leader>tn", ":terminal<CR>", { noremap = true, silent = true })
+end
 
 -- En modo terminal, presionar <Esc> para volver al modo normal
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
