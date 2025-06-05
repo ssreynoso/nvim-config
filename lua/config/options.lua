@@ -73,3 +73,6 @@ vim.keymap.set("i", "<C-b>", "<C-w>", { desc = "Ctrl+Backspace borra palabra ent
 -- Visual: evitar sobrescribir al hacer p o P
 vim.keymap.set("x", "p", '"_dP', { noremap = true, desc = "Pegar después sin sobrescribir" })
 vim.keymap.set("x", "P", '"_dP', { noremap = true, desc = "Pegar antes sin sobrescribir" })
+
+-- Duplicate line
+vim.keymap.set("n", "<leader>d", "yyp", { desc = "Duplicar línea" })

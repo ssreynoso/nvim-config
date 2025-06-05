@@ -158,7 +158,6 @@ These mappings are available when an LSP client attaches:
 | `<leader>ca` | normal/visual | Code actions          |
 | `<leader>rn` | normal        | Rename symbol         |
 | `<leader>D`  | normal        | Buffer diagnostics    |
-| `<leader>d`  | normal        | Line diagnostics      |
 | `[d`         | normal        | Previous diagnostic   |
 | `]d`         | normal        | Next diagnostic       |
 | `K`          | normal        | Hover documentation   |
