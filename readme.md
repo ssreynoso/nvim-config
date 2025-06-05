@@ -11,11 +11,15 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 - [Todo Comments (`lua/plugins/todo-comment.lua`)](#todo-comments-luapluginstodo-commentlua)
 - [Linting (`lua/plugins/linting.lua`)](#linting-luapluginslintinglua)
 - [Formatting (`lua/plugins/formatting.lua`)](#formatting-luapluginsformattinglua)
+- [Colorizer (`lua/plugins/nvim-colorizer.lua`)](#colorizer-luapluginsnvim-colorizerlua)
+- [Floating terminal & notepad (`lua/modules/floatter.lua`)](#floating-terminal--notepad-luamodulesfloatterlua)
+- [Terminal (`lua/config/options.lua`)](#terminal-luaconfigoptionslua)
 - [Telescope (`lua/plugins/telescope.lua`)](#telescope-luapluginstelescopelua)
 - [Commenting (`lua/plugins/comment.lua`)](#commenting-luapluginscommentlua)
 - [Trouble (`lua/plugins/trouble.lua`)](#trouble-luapluginstroublelua)
 - [Zen Mode (`lua/plugins/zenmode.lua`)](#zen-mode-luapluginszenmodelua)
 - [LSP (`lua/plugins/lsp/lspconfig.lua`)](#lsp-luapluginslsplspconfiglua)
+- [User commands (`lua/config/user-commands.lua`)](#user-commands-luaconfiguser-commandslua)
 - [Treesitter incremental selection (`lua/plugins/tree-sitter.lua`)](#treesitter-incremental-selection-luapluginstree-sitterlua)
 - [Completion (`lua/plugins/nvim-cmp.lua`)](#completion-luapluginsnvim-cmplua)
 
@@ -40,13 +44,15 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 
 ## Buffer management (`lua/keymaps/buffers.lua`)
 
-| Key               | Mode   | Action                                 |
-| ----------------- | ------ | -------------------------------------- |
-| `<Tab>`           | normal | Next buffer                            |
-| `<S-Tab>`         | normal | Previous buffer                        |
-| `<leader>w`       | normal | Smart close buffer (saves if modified) |
-| `<leader><Right>` | normal | Move buffer right                      |
-| `<leader><Left>`  | normal | Move buffer left                       |
+| Key               | Mode   | Action                                       |
+| ----------------- | ------ | -------------------------------------------- |
+| `<Tab>`           | normal | Next buffer                                  |
+| `<S-Tab>`         | normal | Previous buffer                              |
+| `<leader>w`       | normal | Smart close buffer (saves if modified)       |
+| `<leader>W`       | normal | Close all buffers (except terminal/NvimTree) |
+| `<leader>T`       | normal | Reopen last closed buffer                    |
+| `<leader><Right>` | normal | Move buffer right                            |
+| `<leader><Left>`  | normal | Move buffer left                             |
 
 ## NvimTree (`lua/keymaps/nvim-tree.lua`)
 
@@ -75,6 +81,26 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 | ----------- | ------------- | ----------------------------- |
 | `<leader>I` | normal/visual | Format file or selected range |
 
+## Colorizer (`lua/plugins/nvim-colorizer.lua`)
+
+| Key          | Mode   | Action           |
+| ------------ | ------ | ---------------- |
+| `<leader>tc` | normal | Toggle Colorizer |
+
+## Floating terminal & notepad (`lua/modules/floatter.lua`)
+
+| Key         | Mode   | Action          |
+| ----------- | ------ | --------------- |
+| `<leader>t` | normal | Toggle terminal |
+| `<leader>n` | normal | Toggle notepad  |
+
+## Terminal (`lua/config/options.lua`)
+
+| Key          | Mode     | Action              |
+| ------------ | -------- | ------------------- |
+| `<leader>tn` | normal   | Open new terminal   |
+| `<Esc>`      | terminal | Exit to normal mode |
+
 ## Telescope (`lua/plugins/telescope.lua`)
 
 | Key                     | Mode   | Action                                                                            |
@@ -82,8 +108,11 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 | `<C-p>`                 | normal | Find files                                                                        |
 | `<leader>pf`            | normal | Find git tracked files                                                            |
 | `<leader>pF`            | normal | Live grep                                                                         |
+| `<leader>p`             | normal | Find git tracked files                                                            |
+| `<leader>pf`            | normal | Live grep                                                                         |
 | `<leader>ph`            | normal | Search help tags                                                                  |
 | `<leader>pt`            | normal | Find TODOs                                                                        |
+| `<leader>pb`            | normal | Search open buffers                                                               |
 | Within Telescope prompt | insert | `<C-j>` next, `<C-k>` previous, `<C-q>` send to quickfix, `<C-t>` open in Trouble |
 
 ## Commenting (`lua/plugins/comment.lua`)
@@ -132,6 +161,12 @@ These mappings are available when an LSP client attaches:
 | `K`          | normal        | Hover documentation   |
 | `<leader>rs` | normal        | Restart LSP           |
 | `<leader>si` | normal        | LSP information       |
+
+## User commands (`lua/config/user-commands.lua`)
+
+| Key          | Mode   | Action                    |
+| ------------ | ------ | ------------------------- |
+| `<leader>cd` | normal | Copy document diagnostics |
 
 ## Treesitter incremental selection (`lua/plugins/tree-sitter.lua`)
 
