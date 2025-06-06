@@ -7,67 +7,121 @@ return {
         { "folke/neodev.nvim", opts = {} },
     },
     config = function()
-        -- import lspconfig plugin
         local lspconfig = require("lspconfig")
-
-        -- import cmp-nvim-lsp plugin
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
-        -- neodev
         require("neodev").setup()
-
-        local keymap = vim.keymap -- for conciseness
+        local keymap = vim.keymap
 
         vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("UserLspConfig", {}),
             callback = function(ev)
-                -- Buffer local mappings.
-                -- See `:help vim.lsp.*` for documentation on any of the below functions
                 local opts = { buffer = ev.buf, silent = true }
 
-                -- set keybinds
                 opts.desc = "Show LSP references"
-                keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
-
+                keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts)
                 opts.desc = "Go to declaration"
-                keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
-
+                keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
                 opts.desc = "Show LSP definitions"
-                keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
-
+                keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
                 opts.desc = "Show LSP implementations"
-                keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-
+                keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
                 opts.desc = "Show LSP type definitions"
-                keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-
+                keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
                 opts.desc = "See available code actions"
-                keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
-
+                keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
                 opts.desc = "Smart rename"
-                keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
+                keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
                 opts.desc = "Show buffer diagnostics"
-                keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+                keymap.set("n", "<leader>D", function()
+                    local previewers = require("telescope.previewers")
+
+                    require("telescope.builtin").diagnostics({
+                        bufnr = 0,
+                        layout_strategy = "horizontal",
+                        layout_config = {
+                            width = 0.8,
+                            height = 0.7,
+                            preview_width = 0.6,
+                        },
+                        previewer = previewers.new_buffer_previewer({
+                            define_preview = function(self, entry, _)
+                                local bufnr = entry.bufnr
+                                local lnum = entry.lnum or 0
+                                local filename = entry.filename or vim.api.nvim_buf_get_name(bufnr)
+                                local lines = {}
+
+                                local context_lines = 15
+                                local ok, file_lines = pcall(vim.fn.readfile, filename)
+                                local start_line = 0
+                                if ok and file_lines then
+                                    start_line = math.max(lnum - context_lines, 0)
+                                    local end_line = math.min(lnum + context_lines, #file_lines - 1)
+                                    for i = start_line + 1, end_line + 1 do
+                                        table.insert(lines, file_lines[i] or "")
+                                    end
+                                else
+                                    table.insert(lines, "[No se pudo leer el archivo]")
+                                end
+
+                                table.insert(lines, "")
+                                table.insert(lines, string.rep("─", 50))
+                                table.insert(lines, "")
+
+                                local msg = entry.text or "Sin mensaje"
+                                local severity = entry.type or "Desconocido"
+                                local severity_colors = {
+                                    ERROR = "DiagnosticError",
+                                    WARN = "DiagnosticWarn",
+                                    INFO = "DiagnosticInfo",
+                                    HINT = "DiagnosticHint",
+                                }
+
+                                local msg_line_index = #lines + 1
+                                table.insert(lines, "󰎡 " .. severity .. ": " .. msg)
+
+                                local win_height = math.floor(vim.o.lines * 0.6 * 0.95)
+                                while #lines < win_height do
+                                    table.insert(lines, "")
+                                end
+
+                                vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
+                                vim.api.nvim_buf_set_option(self.state.bufnr, "filetype", "lua")
+
+                                local hl = severity_colors[severity]
+                                if hl then
+                                    vim.api.nvim_buf_add_highlight(self.state.bufnr, -1, hl, msg_line_index - 1, 0, -1)
+                                end
+
+                                local highlight_line = (lnum - start_line) - 1
+                                if highlight_line >= 0 and highlight_line < #lines then
+                                    vim.api.nvim_buf_add_highlight(
+                                        self.state.bufnr,
+                                        -1,
+                                        "Visual",
+                                        highlight_line,
+                                        0,
+                                        -1
+                                    )
+                                end
+                            end,
+                        }),
+                    })
+                end, opts)
 
                 opts.desc = "Go to previous diagnostic"
-                keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-
+                keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
                 opts.desc = "Go to next diagnostic"
-                keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
-
+                keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
                 opts.desc = "Show documentation for what is under cursor"
-                keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
-
+                keymap.set("n", "K", vim.lsp.buf.hover, opts)
                 opts.desc = "Restart LSP"
-                keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-
+                keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
                 opts.desc = "Show LSP Info"
                 keymap.set("n", "<leader>si", ":LspInfo<CR>", opts)
             end,
         })
 
-        -- used to enable autocompletion (assign to every lsp server config)
         local capabilities = cmp_nvim_lsp.default_capabilities()
 
         local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
