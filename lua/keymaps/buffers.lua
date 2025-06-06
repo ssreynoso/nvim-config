@@ -45,7 +45,7 @@ function M.setup()
             local ft = vim.bo[buf.bufnr].filetype
 
             if bt ~= "terminal" and ft ~= "NvimTree" and buf.bufnr ~= current_buf then
-                remove_from_history(buf.bufnr) -- ❌ Sacar del historial
+                remove_from_history(buf.bufnr)
                 vim.cmd("bdelete " .. buf.bufnr)
             end
         end

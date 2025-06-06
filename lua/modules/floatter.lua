@@ -1,4 +1,7 @@
+-- ~/.config/nvim/lua/modules/floatter.lua
 local M = {}
+
+local terminal_selector = require("modules.terminal_selector")
 
 local state = {
     terminal = { buf = -1, win = -1 },
@@ -48,21 +51,18 @@ local function create_floating_window(opts)
 end
 
 function M.toggle_terminal()
-    local uname = vim.loop.os_uname()
-    local is_windows = uname.sysname == "Windows_NT"
-    local is_wsl = uname.release:match("Microsoft") ~= nil
+    local is_win_valid = vim.api.nvim_win_is_valid(state.terminal.win)
+    local is_buf_valid = vim.api.nvim_buf_is_valid(state.terminal.buf)
+    local is_not_terminal = is_buf_valid and vim.bo[state.terminal.buf].buftype ~= "terminal"
 
-    if not vim.api.nvim_win_is_valid(state.terminal.win) then
-        state.terminal = create_floating_window({ buf = state.terminal.buf, title = "🖥️ Terminal" })
-        if vim.bo[state.terminal.buf].buftype ~= "terminal" then
-            if is_windows and not is_wsl then
-                vim.cmd("terminal wsl")
-            else
-                vim.cmd("terminal")
-            end
+    if not is_win_valid then
+        terminal_selector.select_terminal(function(shell)
+            state.terminal = create_floating_window({ title = "🖥️ Terminal" })
+
+            vim.cmd("terminal " .. shell)
             vim.b.floater_terminal = true
-        end
-    else
+        end)
+    elseif is_buf_valid and not is_not_terminal then
         vim.api.nvim_win_hide(state.terminal.win)
     end
 end
@@ -71,7 +71,6 @@ function M.toggle_note()
     local note_path = vim.fn.stdpath("data") .. "/.nvim_notepad.md"
     local buf
 
-    -- ⚠️ Buscar el buffer ya abierto por nombre
     for _, b in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_get_name(b) == note_path then
             buf = b
@@ -79,7 +78,6 @@ function M.toggle_note()
         end
     end
 
-    -- Crear archivo si no existe
     if not buf then
         if vim.fn.filereadable(note_path) == 0 then
             vim.fn.writefile({ "# 📒 Nota rápida", "" }, note_path)
@@ -99,7 +97,6 @@ function M.toggle_note()
         vim.wo[state.note.win].number = true
         vim.wo[state.note.win].relativenumber = false
 
-        -- Restaurar posición previa
         if state.note_cursor then
             pcall(vim.api.nvim_win_set_cursor, state.note.win, state.note_cursor)
         end
@@ -114,7 +111,6 @@ function M.toggle_note()
             desc = "Guardar posición de cursor de la nota",
         })
     else
-        -- Guardar cursor y cerrar
         state.note_cursor = vim.api.nvim_win_get_cursor(state.note.win)
 
         if vim.bo[state.note.buf].modified then
@@ -130,6 +126,8 @@ vim.api.nvim_create_user_command("Floaternote", M.toggle_note, {})
 
 vim.keymap.set("n", "<leader>t", M.toggle_terminal, { desc = "Toggle terminal" })
 vim.keymap.set("n", "<leader>n", M.toggle_note, { desc = "Toggle notepad" })
+
+M.create_floating_window = create_floating_window
 
 M.state = state
 

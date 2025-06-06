@@ -35,7 +35,7 @@ return {
                 layout_config = {
                     horizontal = { width = 0.9 },
                 },
-                path_display = { "truncate" },
+                path_display = { "smart" },
                 mappings = {
                     i = {
                         ["<C-k>"] = actions.move_selection_previous, -- move to prev result
@@ -96,6 +96,14 @@ return {
         keymap.set("n", "<leader>ph", "<cmd>Telescope help_tags<cr>", { desc = "Find string under cursor in cwd" })
         keymap.set("n", "<leader>pt", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
         keymap.set("n", "<leader>pb", "<cmd>Telescope buffers<cr>", { desc = "Buscar entre buffers abiertos" })
+        keymap.set("n", "<leader>pe", function()
+            require("telescope.builtin").find_files({
+                hidden = true,
+                no_ignore = true,
+                prompt_title = "Buscar .env",
+                find_command = { "fd", "--type", "f", "--hidden", "--no-ignore", "--glob", ".env*" },
+            })
+        end, { desc = "Buscar archivos .env*" })
 
         -- Quicktype + paste.
         vim.api.nvim_create_user_command("PasteAsCode", function()
