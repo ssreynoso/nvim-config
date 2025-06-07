@@ -24,3 +24,15 @@ vim.api.nvim_create_user_command("CopyDiagnostics", function()
 end, {})
 
 vim.keymap.set("n", "<leader>cd", ":CopyDiagnostics<CR>", { desc = "Copy document diagnostics" })
+
+vim.keymap.set("n", "<leader>ar", function()
+    -- Inserta el texto después del cursor
+    vim.api.nvim_put({ "() => {}" }, "c", true, true)
+
+    -- Posiciona el cursor en el medio de las llaves
+    local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+    vim.api.nvim_win_set_cursor(0, { row, col + 6 }) -- justo después de la apertura {
+
+    -- Entra en modo insert
+    vim.api.nvim_feedkeys("i", "n", false)
+end, { desc = "Insert arrow function and enter insert mode" })
