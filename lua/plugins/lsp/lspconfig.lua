@@ -7,10 +7,11 @@ return {
         { "folke/neodev.nvim", opts = {} },
     },
     config = function()
-        local lspconfig = require("lspconfig")
-        local cmp_nvim_lsp = require("cmp_nvim_lsp")
         require("neodev").setup()
+
         local keymap = vim.keymap
+
+        local action_state = require("telescope.actions.state")
 
         vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -57,7 +58,7 @@ return {
                                 local filename = entry.filename or vim.api.nvim_buf_get_name(bufnr)
                                 local lines = {}
 
-                                local context_lines = 15
+                                local context_lines = 7
                                 local ok, file_lines = pcall(vim.fn.readfile, filename)
                                 local start_line = 0
                                 if ok and file_lines then
@@ -83,8 +84,21 @@ return {
                                     HINT = "DiagnosticHint",
                                 }
 
+                                local function wrap_text(text, width)
+                                    local wrapped = {}
+                                    while #text > width do
+                                        local space = text:sub(1, width):match(".*()%s")
+                                        local break_point = space or width
+                                        table.insert(wrapped, text:sub(1, break_point))
+                                        text = text:sub(break_point + 1)
+                                    end
+                                    table.insert(wrapped, text)
+                                    return wrapped
+                                end
+
+                                local msg_lines = wrap_text("󰎡 " .. severity .. ": " .. msg, 80)
                                 local msg_line_index = #lines + 1
-                                table.insert(lines, "󰎡 " .. severity .. ": " .. msg)
+                                vim.list_extend(lines, msg_lines)
 
                                 local win_height = math.floor(vim.o.lines * 0.6 * 0.95)
                                 while #lines < win_height do
@@ -96,7 +110,16 @@ return {
 
                                 local hl = severity_colors[severity]
                                 if hl then
-                                    vim.api.nvim_buf_add_highlight(self.state.bufnr, -1, hl, msg_line_index - 1, 0, -1)
+                                    for i = 0, #msg_lines - 1 do
+                                        vim.api.nvim_buf_add_highlight(
+                                            self.state.bufnr,
+                                            -1,
+                                            hl,
+                                            msg_line_index - 1 + i,
+                                            0,
+                                            -1
+                                        )
+                                    end
                                 end
 
                                 local highlight_line = (lnum - start_line) - 1
@@ -112,6 +135,21 @@ return {
                                 end
                             end,
                         }),
+                        attach_mappings = function(prompt_bufnr, map)
+                            map("n", "y", function()
+                                local entry = action_state.get_selected_entry()
+                                local msg = entry.text or "Sin mensaje"
+                                local severity = entry.type or "Desconocido"
+                                local filename = entry.filename or vim.api.nvim_buf_get_name(entry.bufnr)
+                                local lnum = entry.lnum or 0
+
+                                local composed = string.format("[%s] %s:%d\n%s\n", severity, filename, lnum, msg)
+
+                                vim.fn.setreg("+", composed)
+                                vim.notify("Diagnostic copied to clipboard", vim.log.levels.INFO)
+                            end)
+                            return true
+                        end,
                     })
                 end, opts)
 
