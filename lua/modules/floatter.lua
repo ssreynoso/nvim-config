@@ -53,16 +53,24 @@ end
 function M.toggle_terminal()
     local is_win_valid = vim.api.nvim_win_is_valid(state.terminal.win)
     local is_buf_valid = vim.api.nvim_buf_is_valid(state.terminal.buf)
-    local is_not_terminal = is_buf_valid and vim.bo[state.terminal.buf].buftype ~= "terminal"
+    local is_terminal = is_buf_valid and vim.bo[state.terminal.buf].buftype == "terminal"
 
     if not is_win_valid then
-        terminal_selector.select_terminal(function(shell)
-            state.terminal = create_floating_window({ title = "🖥️ Terminal" })
+        if not is_buf_valid or not is_terminal then
+            -- seleccionar shell y crear terminal si no hay ninguna válida
+            terminal_selector.select_terminal(function(shell)
+                state.terminal = create_floating_window({ title = "🖥️ Terminal" })
 
-            vim.cmd("terminal " .. shell)
-            vim.b.floater_terminal = true
-        end)
-    elseif is_buf_valid and not is_not_terminal then
+                vim.cmd("terminal " .. shell)
+                state.terminal.buf = vim.api.nvim_get_current_buf() -- guardar el buffer nuevo
+                vim.b.floater_terminal = true
+            end)
+        else
+            -- si el buffer es válido y es una terminal, abrir en nueva ventana flotante
+            state.terminal = create_floating_window({ title = "🖥️ Terminal", buf = state.terminal.buf })
+        end
+    else
+        -- si la ventana ya está abierta, simplemente cerrarla
         vim.api.nvim_win_hide(state.terminal.win)
     end
 end
