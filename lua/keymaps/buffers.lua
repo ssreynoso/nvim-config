@@ -107,6 +107,10 @@ function M.setup()
             if floatter.state.terminal and vim.api.nvim_win_is_valid(floatter.state.terminal.win) then
                 floatter.toggle_terminal()
             end
+            -- 🚀 CERRAR LAZYGIT SI ESTÁ ABIERTO
+            if floatter.state.lazygit and vim.api.nvim_win_is_valid(floatter.state.lazygit.win) then
+                floatter.toggle_lazygit()
+            end
         end
     end, { desc = "Smart close buffer" })
 

@@ -1,4 +1,4 @@
--- ~/.config/nvim/lua/modules/floatter.lua
+-- ~/.config/nvim/lua/modules/floatter.luafloatt
 local M = {}
 
 local terminal_selector = require("modules.terminal_selector")
@@ -48,6 +48,29 @@ local function create_floating_window(opts)
     )
 
     return { buf = buf, win = win }
+end
+
+function M.toggle_lazygit()
+    local win = state.lazygit and state.lazygit.win
+    local buf = state.lazygit and state.lazygit.buf
+
+    local is_win_valid = type(win) == "number" and vim.api.nvim_win_is_valid(win)
+    local is_buf_valid = type(buf) == "number" and vim.api.nvim_buf_is_valid(buf)
+    local is_terminal = is_buf_valid and vim.bo[buf].buftype == "terminal"
+
+    if not is_win_valid then
+        if not is_buf_valid or not is_terminal then
+            state.lazygit = create_floating_window({ title = " Lazygit" })
+
+            vim.cmd("terminal lazygit")
+            state.lazygit.buf = vim.api.nvim_get_current_buf()
+            vim.b.floater_lazygit = true
+        else
+            state.lazygit = create_floating_window({ title = " Lazygit", buf = buf })
+        end
+    else
+        vim.api.nvim_win_hide(win)
+    end
 end
 
 function M.toggle_terminal()

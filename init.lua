@@ -4,6 +4,3 @@ require("config.auto-commands")
 require("config.user-commands")
 require("config.lazy")
 require("config.options")
-
--- Modules
-require("modules.floatter")
