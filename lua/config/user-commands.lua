@@ -36,3 +36,8 @@ vim.keymap.set("n", "<leader>ar", function()
     -- Entra en modo insert
     vim.api.nvim_feedkeys("i", "n", false)
 end, { desc = "Insert arrow function and enter insert mode" })
+
+-- Git help
+vim.api.nvim_create_user_command("GitHelp", function()
+    require("modules.git_help").open_git_help()
+end, {})
