@@ -30,3 +30,20 @@ vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Mover selección arri
 
 -- Guardar
 vim.keymap.set("n", "<leader>s", "<cmd>w<cr>", { desc = "Guardar archivo" })
+
+-- Remap ctrl d &ctrl
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+-- Searchs
+vim.keymap.set("n", "n", function()
+    local word = vim.fn.expand("<cword>")
+    vim.fn.search("\\V\\<" .. word .. "\\>", "W")
+    vim.cmd("normal! zz")
+end, { desc = "Search current word forward and center" })
+
+vim.keymap.set("n", "N", function()
+    local word = vim.fn.expand("<cword>")
+    vim.fn.search("\\V\\<" .. word .. "\\>", "bW")
+    vim.cmd("normal! zz")
+end, { desc = "Search current word backward and center" })
