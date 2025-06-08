@@ -6,7 +6,7 @@ return {
                 width = 0.85, -- 85% del ancho de la pantalla
                 options = {
                     number = true,
-                    relativenumber = false,
+                    relativenumber = true,
                     wrap = false,
                 },
             },

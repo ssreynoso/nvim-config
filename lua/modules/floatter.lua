@@ -95,7 +95,7 @@ function M.toggle_note()
         vim.bo[buf].swapfile = false
         vim.b[buf].floater_note = true
         vim.wo[state.note.win].number = true
-        vim.wo[state.note.win].relativenumber = false
+        vim.wo[state.note.win].relativenumber = true
 
         if state.note_cursor then
             pcall(vim.api.nvim_win_set_cursor, state.note.win, state.note_cursor)

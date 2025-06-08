@@ -1,4 +1,5 @@
 vim.opt.number = true -- Show the number of the lines.
+vim.opt.relativenumber = true
 vim.opt.mouse = "a" -- Allow the use of the mouse (?
 vim.opt.showmode = false
 vim.opt.ignorecase = true -- When search, ignores uppercases. 'two' -> ['two', 'tWo', 'TWo', ...]
