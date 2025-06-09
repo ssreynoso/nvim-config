@@ -35,6 +35,9 @@ return {
                 git_ignored = false,
                 dotfiles = false,
             },
+            git = {
+                timeout = 1500, -- 👈 aumentamos el timeout a 1.5s
+            },
         })
     end,
 }
