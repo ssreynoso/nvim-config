@@ -28,8 +28,6 @@ return {
             end,
         })
 
-        local asd
-
         telescope.setup({
             defaults = {
                 sorting_strategy = "ascending",
@@ -114,5 +112,13 @@ return {
         end, {})
 
         vim.keymap.set("n", "<leader>pq", "<cmd>PasteAsCode<CR>", { desc = "Pegar JSON como código con quicktype" })
+
+        vim.keymap.set("n", "<leader>gb", function()
+            require("telescope.builtin").git_branches()
+        end, { desc = "Git branches" })
+
+        vim.keymap.set("n", "<leader>P", function()
+            require("telescope.builtin").commands()
+        end, { desc = "Command Palette estilo VSCode" })
     end,
 }
