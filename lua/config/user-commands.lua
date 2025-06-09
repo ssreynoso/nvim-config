@@ -41,3 +41,33 @@ end, { desc = "Insert arrow function and enter insert mode" })
 vim.api.nvim_create_user_command("GitHelp", function()
     require("modules.git_help").open_git_help()
 end, {})
+
+-- Git Float Help
+vim.api.nvim_create_user_command("FloatHelp", function(opts)
+    local topic = opts.args
+
+    if topic == "" then
+        vim.notify("Especificá un tema de ayuda, por ejemplo: :FloatHelp nvim-tree.git.timeout", vim.log.levels.WARN)
+
+        return
+    end
+
+    vim.cmd("help " .. topic)
+    local help_buf = vim.api.nvim_get_current_buf()
+    local floatter = require("modules.floatter")
+
+    local float = floatter.create_floating_window({ title = " Help: " .. topic, buf = help_buf })
+    floatter.state.help = float
+end, {
+    nargs = 1,
+    complete = "help",
+    desc = "Abrir ayuda en una ventana flotante",
+})
+
+vim.keymap.set("n", "<leader>fh", function()
+    vim.ui.input({ prompt = "Help topic: " }, function(input)
+        if input then
+            vim.cmd("FloatHelp " .. input)
+        end
+    end)
+end, { desc = "Ayuda flotante" })
