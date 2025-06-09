@@ -45,19 +45,43 @@ end, {})
 -- Git Float Help
 vim.api.nvim_create_user_command("FloatHelp", function(opts)
     local topic = opts.args
-
     if topic == "" then
         vim.notify("Especificá un tema de ayuda, por ejemplo: :FloatHelp nvim-tree.git.timeout", vim.log.levels.WARN)
-
         return
     end
 
-    vim.cmd("help " .. topic)
-    local help_buf = vim.api.nvim_get_current_buf()
     local floatter = require("modules.floatter")
 
-    local float = floatter.create_floating_window({ title = " Help: " .. topic, buf = help_buf })
-    floatter.state.help = float
+    -- Guardamos las ventanas abiertas antes del help
+    local wins_before = vim.api.nvim_list_wins()
+
+    -- Ejecutamos el comando de ayuda
+    vim.cmd("help " .. topic)
+
+    -- Identificamos la nueva ventana de ayuda
+    local wins_after = vim.api.nvim_list_wins()
+    local help_win
+    for _, win in ipairs(wins_after) do
+        if not vim.tbl_contains(wins_before, win) then
+            help_win = win
+            break
+        end
+    end
+
+    -- Si la encontramos, obtenemos su buffer y la cerramos
+    if help_win then
+        local help_buf = vim.api.nvim_win_get_buf(help_win)
+        vim.api.nvim_win_close(help_win, true)
+
+        -- Mostramos el buffer en una ventana flotante
+        local float = floatter.create_floating_window({
+            title = " Help: " .. topic,
+            buf = help_buf,
+        })
+        floatter.state.help = float
+    else
+        vim.notify("No se pudo detectar la ventana de ayuda", vim.log.levels.ERROR)
+    end
 end, {
     nargs = 1,
     complete = "help",

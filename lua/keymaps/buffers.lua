@@ -94,6 +94,7 @@ function M.setup()
         end
 
         local ok, floatter = pcall(require, "modules.floatter")
+
         if ok and floatter.state then
             if floatter.state.note and vim.api.nvim_win_is_valid(floatter.state.note.win) then
                 floatter.toggle_note()
@@ -103,6 +104,10 @@ function M.setup()
             end
             if floatter.state.lazygit and vim.api.nvim_win_is_valid(floatter.state.lazygit.win) then
                 floatter.toggle_lazygit()
+            end
+            if floatter.state.help and vim.api.nvim_win_is_valid(floatter.state.help.win) then
+                vim.api.nvim_win_close(floatter.state.help.win, true)
+                floatter.state.help = nil
             end
         end
     end, { desc = "Smart close buffer" })
