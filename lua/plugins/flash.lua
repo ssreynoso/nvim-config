@@ -1,7 +1,15 @@
 return {
     "folke/flash.nvim",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+        labels = "asdfghjklqwertyuiopzxcvbnm", -- podés poner tus letras favoritas
+        modes = {
+            char = {
+                enabled = true,
+                jump_labels = true,
+            },
+        },
+    },
     keys = {
         {
             "s",
