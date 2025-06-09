@@ -23,7 +23,6 @@ local function add_to_history(bufnr)
         return
     end
 
-    -- Eliminar si ya estaba y reinsertar al final
     remove_from_history(bufnr)
     table.insert(buffer_history, bufnr)
 end
@@ -35,7 +34,6 @@ function M.setup()
         end,
     })
 
-    -- Close all buffers
     vim.keymap.set("n", "<leader>W", function()
         local current_buf = vim.api.nvim_get_current_buf()
         local bufs = vim.fn.getbufinfo({ buflisted = 1 })
@@ -68,7 +66,6 @@ function M.setup()
         end
     end, { desc = "Cerrar todos los buffers (menos terminal/NvimTree)" })
 
-    -- Smart close
     vim.keymap.set("n", "<leader>w", function()
         local current_buf = vim.api.nvim_get_current_buf()
         local current_name = vim.api.nvim_buf_get_name(current_buf)
@@ -76,7 +73,6 @@ function M.setup()
             last_closed_buffer = current_name
         end
 
-        -- Quitar del historial ANTES de cerrar
         remove_from_history(current_buf)
 
         if vim.bo.modified then
@@ -89,7 +85,6 @@ function M.setup()
             vim.cmd("bdelete")
         end
 
-        -- Ir al último buffer válido del historial
         for i = #buffer_history, 1, -1 do
             local bufnr = buffer_history[i]
             if vim.api.nvim_buf_is_valid(bufnr) then
@@ -98,7 +93,6 @@ function M.setup()
             end
         end
 
-        -- 🔥 NUEVO: Cerrar modales flotantes si están abiertos
         local ok, floatter = pcall(require, "modules.floatter")
         if ok and floatter.state then
             if floatter.state.note and vim.api.nvim_win_is_valid(floatter.state.note.win) then
@@ -107,7 +101,6 @@ function M.setup()
             if floatter.state.terminal and vim.api.nvim_win_is_valid(floatter.state.terminal.win) then
                 floatter.toggle_terminal()
             end
-            -- 🚀 CERRAR LAZYGIT SI ESTÁ ABIERTO
             if floatter.state.lazygit and vim.api.nvim_win_is_valid(floatter.state.lazygit.win) then
                 floatter.toggle_lazygit()
             end
