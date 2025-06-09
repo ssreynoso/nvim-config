@@ -22,6 +22,7 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 - [Commenting (`lua/plugins/comment.lua`)](#commenting-luapluginscommentlua)
 - [Trouble (`lua/plugins/trouble.lua`)](#trouble-luapluginstroublelua)
 - [Zen Mode (`lua/plugins/zenmode.lua`)](#zen-mode-luapluginszenmodelua)
+- [Git (`lua/plugins/git/neogit.lua`)](#git-luapluginsgitneogitlua)
 - [LSP (`lua/plugins/lsp/lspconfig.lua`)](#lsp-luapluginslsplspconfiglua)
 - [User commands (`lua/config/user-commands.lua`)](#user-commands-luaconfiguser-commandslua)
 - [Treesitter incremental selection (`lua/plugins/tree-sitter.lua`)](#treesitter-incremental-selection-luapluginstree-sitterlua)
@@ -44,6 +45,10 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 | `<A-j>`     | visual        | Move selection down                          |
 | `<A-k>`     | normal        | Move current line up                         |
 | `<A-k>`     | visual        | Move selection up                            |
+| `<C-d>`     | normal        | Scroll down and center                      |
+| `<C-u>`     | normal        | Scroll up and center                        |
+| `n`         | normal        | Search current word forward and center      |
+| `N`         | normal        | Search current word backward and center     |
 
 ## Buffer management (`lua/keymaps/buffers.lua`)
 
@@ -102,22 +107,25 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 | Key          | Mode     | Action              |
 | ------------ | -------- | ------------------- |
 | `<leader>tn` | normal   | Open new terminal   |
-| `<Esc>`      | terminal | Exit to normal mode |
+| `<Esc><Esc>` | terminal | Exit to normal mode |
+| `<C-b>`      | insert   | Delete previous word |
+| `p`          | visual   | Paste after without overwriting |
+| `P`          | visual   | Paste before without overwriting |
+| `<leader>d`  | normal   | Duplicate line |
 
 ## Telescope (`lua/plugins/telescope.lua`)
 
-| Key                     | Mode   | Action                                                                            |
-| ----------------------- | ------ | --------------------------------------------------------------------------------- |
-| `<C-p>`                 | normal | Find files                                                                        |
-| `<leader>pf`            | normal | Find git tracked files                                                            |
-| `<leader>pF`            | normal | Live grep                                                                         |
-| `<leader>p`             | normal | Find git tracked files                                                            |
-| `<leader>pf`            | normal | Live grep                                                                         |
-| `<leader>ph`            | normal | Search help tags                                                                  |
-| `<leader>pt`            | normal | Find TODOs                                                                        |
-| `<leader>pb`            | normal | Search open buffers                                                               |
+| Key                     | Mode   | Action |
+| ----------------------- | ------ | ------ |
+| `<C-p>`                 | normal | Find files |
+| `<leader>p`             | normal | Find git tracked files |
+| `<leader>pf`            | normal | Live grep |
+| `<leader>ph`            | normal | Search help tags |
+| `<leader>pt`            | normal | Find TODOs |
+| `<leader>pb`            | normal | Search open buffers |
+| `<leader>pe`            | normal | Search `.env*` files |
+| `<leader>pq`            | normal | Paste JSON as code with quicktype |
 | Within Telescope prompt | insert | `<C-j>` next, `<C-k>` previous, `<C-q>` send to quickfix, `<C-t>` open in Trouble |
-
 ## Commenting (`lua/plugins/comment.lua`)
 
 | Key         | Mode   | Action                      |
@@ -144,6 +152,12 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 | ------------ | ------ | --------------- |
 | `<leader>zz` | normal | Toggle Zen Mode |
 
+## Git (`lua/plugins/git/neogit.lua`)
+
+| Key | Mode | Action |
+| --- | ---- | ------ |
+| `<leader>gs` | normal | Open Neogit |
+
 ## LSP (`lua/plugins/lsp/lspconfig.lua`)
 
 These mappings are available when an LSP client attaches:
@@ -166,10 +180,11 @@ These mappings are available when an LSP client attaches:
 
 ## User commands (`lua/config/user-commands.lua`)
 
-| Key          | Mode   | Action                    |
-| ------------ | ------ | ------------------------- |
-| `<leader>cd` | normal | Copy document diagnostics |
-
+| Key/Command | Mode    | Action |
+| ----------- | ------- | ------ |
+| `<leader>cd` | normal  | Copy document diagnostics |
+| `<leader>ar` | normal  | Insert arrow function and enter insert mode |
+| `:GitHelp`   | command | Show Git keymap help |
 ## Treesitter incremental selection (`lua/plugins/tree-sitter.lua`)
 
 | Key   | Mode   | Action                  |
