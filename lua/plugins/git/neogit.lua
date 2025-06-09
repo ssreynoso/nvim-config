@@ -10,11 +10,13 @@ return {
             "sindrets/diffview.nvim",
             config = true, -- se integra automáticamente
         },
+        "nvim-telescope/telescope.nvim",
     },
     config = function()
         require("neogit").setup({
             kind = "tab", -- o "split", "floating"
             integrations = {
+                telescope = true,
                 diffview = true,
             },
         })
