@@ -13,7 +13,7 @@ return {
         require("nvim-tree").setup({
             view = {
                 side = "left",
-                width = 40,
+                width = 50,
                 preserve_window_proportions = true,
             },
             renderer = {
