@@ -121,7 +121,7 @@ return {
             require("telescope.builtin").commands()
         end, { desc = "Command Palette estilo VSCode" })
 
-        vim.keymap.set("n", "<C-f>", function()
+        vim.keymap.set("n", "<leader>f", function()
             require("telescope.builtin").treesitter()
         end, { desc = "Buscar símbolos con Treesitter en el buffer actual" })
     end,

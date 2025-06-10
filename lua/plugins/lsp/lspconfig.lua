@@ -175,5 +175,61 @@ return {
             local hl = "DiagnosticSign" .. type
             vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
         end
+
+        -- 🔧 Mover setup_handlers acá
+        local lspconfig = require("lspconfig")
+        local cmp_nvim_lsp = require("cmp_nvim_lsp")
+        local capabilities = cmp_nvim_lsp.default_capabilities()
+
+        require("mason-lspconfig").setup_handlers({
+            function(server_name)
+                lspconfig[server_name].setup({
+                    capabilities = capabilities,
+                })
+            end,
+            ["jsonls"] = function()
+                lspconfig.jsonls.setup({
+                    capabilities = capabilities,
+                    settings = {
+                        json = {
+                            format = { enable = false },
+                            validate = { enable = true },
+                        },
+                    },
+                })
+            end,
+            ["lua_ls"] = function()
+                lspconfig.lua_ls.setup({
+                    capabilities = capabilities,
+                    settings = {
+                        Lua = {
+                            diagnostics = { globals = { "vim" } },
+                            completion = { callSnippet = "Replace" },
+                        },
+                    },
+                })
+            end,
+            ["graphql"] = function()
+                lspconfig.graphql.setup({
+                    capabilities = capabilities,
+                    filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
+                })
+            end,
+            ["emmet_ls"] = function()
+                lspconfig.emmet_ls.setup({
+                    capabilities = capabilities,
+                    filetypes = {
+                        "html",
+                        "typescriptreact",
+                        "javascriptreact",
+                        "css",
+                        "sass",
+                        "scss",
+                        "less",
+                        "svelte",
+                    },
+                })
+            end,
+        })
     end,
 }
