@@ -27,6 +27,8 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 - [User commands (`lua/config/user-commands.lua`)](#user-commands-luaconfiguser-commandslua)
 - [Treesitter incremental selection (`lua/plugins/tree-sitter.lua`)](#treesitter-incremental-selection-luapluginstree-sitterlua)
 - [Completion (`lua/plugins/nvim-cmp.lua`)](#completion-luapluginsnvim-cmplua)
+- [Flash (`lua/plugins/flash.lua`)](#flash-luapluginsflashlua)
+- [Visual Multi (`lua/plugins/vim-visual-multi.lua`)](#visual-multi-luapluginsvim-visual-multilua)
 
 ## Leader keys
 
@@ -125,6 +127,8 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 | `<leader>pb`            | normal | Search open buffers |
 | `<leader>pe`            | normal | Search `.env*` files |
 | `<leader>pq`            | normal | Paste JSON as code with quicktype |
+| `<leader>gb`            | normal | Git branches |
+| `<leader>P`             | normal | Command palette |
 | Within Telescope prompt | insert | `<C-j>` next, `<C-k>` previous, `<C-q>` send to quickfix, `<C-t>` open in Trouble |
 ## Commenting (`lua/plugins/comment.lua`)
 
@@ -157,6 +161,7 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 | Key | Mode | Action |
 | --- | ---- | ------ |
 | `<leader>gs` | normal | Open Neogit |
+| `<leader>gh` | normal | File history in Diffview |
 
 ## LSP (`lua/plugins/lsp/lspconfig.lua`)
 
@@ -184,6 +189,7 @@ These mappings are available when an LSP client attaches:
 | ----------- | ------- | ------ |
 | `<leader>cd` | normal  | Copy document diagnostics |
 | `<leader>ar` | normal  | Insert arrow function and enter insert mode |
+| `<leader>fh` | normal  | Floating help prompt |
 | `:GitHelp`   | command | Show Git keymap help |
 ## Treesitter incremental selection (`lua/plugins/tree-sitter.lua`)
 
@@ -206,3 +212,20 @@ These mappings are active while completing in insert mode:
 | `<C-Space>` | Trigger completion  |
 | `<C-e>`     | Abort completion    |
 | `<CR>`      | Confirm selection   |
+
+## Flash (`lua/plugins/flash.lua`)
+
+| Key      | Mode            | Action             |
+| -------- | --------------- | ------------------ |
+| `m`      | normal/visual/o | Flash              |
+| `M`      | normal/visual/o | Flash Treesitter   |
+| `r`      | operator        | Remote Flash       |
+| `R`      | operator/visual | Treesitter Search  |
+| `<C-s>`  | command         | Toggle Flash Search |
+
+## Visual Multi (`lua/plugins/vim-visual-multi.lua`)
+
+| Key     | Action            |
+| ------- | ----------------- |
+| `<C-j>` | Add cursor down   |
+| `<C-k>` | Add cursor up     |
