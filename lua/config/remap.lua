@@ -47,3 +47,13 @@ vim.keymap.set("n", "N", function()
     vim.fn.search("\\V\\<" .. word .. "\\>", "bW")
     vim.cmd("normal! zz")
 end, { desc = "Search current word backward and center" })
+
+-- Move files
+vim.keymap.set("n", "<leader>mv", function()
+    require("modules.move_files").pick_files()
+end, { desc = "Mover archivos con Telescope" })
+
+-- Pick and open files
+vim.keymap.set("n", "<C-p>", function()
+    require("modules.pick_files").pick_and_open_files()
+end, { desc = "Seleccionar y abrir múltiples archivos" })
