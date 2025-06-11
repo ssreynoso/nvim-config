@@ -89,7 +89,7 @@ end, {
 })
 
 vim.keymap.set("n", "<leader>fh", function()
-    vim.ui.input({ prompt = "Help topic: " }, function(input)
+    vim.ui.input({ prompt = "Help topic:" }, function(input)
         if input then
             vim.cmd("FloatHelp " .. input)
         end
