@@ -75,26 +75,38 @@ function M.setup()
 
         remove_from_history(current_buf)
 
-        if vim.bo.modified then
-            vim.cmd("write")
-        end
+        local is_modified = vim.bo[current_buf].modified
 
-        if vim.bo.buftype == "terminal" then
-            vim.cmd("bdelete!")
-        else
-            vim.cmd("bdelete")
-        end
-
+        -- Buscar buffer alternativo antes de cerrar
+        local fallback_buf = nil
         for i = #buffer_history, 1, -1 do
             local bufnr = buffer_history[i]
-            if vim.api.nvim_buf_is_valid(bufnr) then
-                vim.api.nvim_set_current_buf(bufnr)
+            if vim.api.nvim_buf_is_valid(bufnr) and bufnr ~= current_buf then
+                fallback_buf = bufnr
                 break
             end
         end
 
-        local ok, floatter = pcall(require, "modules.floatter")
+        if fallback_buf then
+            vim.api.nvim_set_current_buf(fallback_buf)
+        end
 
+        -- Guardar si está modificado
+        if is_modified then
+            vim.api.nvim_buf_call(current_buf, function()
+                vim.cmd("write")
+            end)
+        end
+
+        -- Cerrar buffer actual
+        if vim.bo[current_buf].buftype == "terminal" then
+            vim.cmd("bdelete! " .. current_buf)
+        else
+            vim.cmd("bdelete " .. current_buf)
+        end
+
+        -- Cerrar floatters si están abiertos
+        local ok, floatter = pcall(require, "modules.floatter")
         if ok and floatter.state then
             if floatter.state.note and vim.api.nvim_win_is_valid(floatter.state.note.win) then
                 floatter.toggle_note()
