@@ -136,18 +136,45 @@ return {
                             end,
                         }),
                         attach_mappings = function(prompt_bufnr, map)
+                            local actions = require("telescope.actions")
+                            local action_state = require("telescope.actions.state")
+
                             map("n", "y", function()
-                                local entry = action_state.get_selected_entry()
-                                local msg = entry.text or "Sin mensaje"
-                                local severity = entry.type or "Desconocido"
-                                local filename = entry.filename or vim.api.nvim_buf_get_name(entry.bufnr)
-                                local lnum = entry.lnum or 0
+                                local picker = action_state.get_current_picker(prompt_bufnr)
+                                local selections = picker:get_multi_selection()
 
-                                local composed = string.format("[%s] %s:%d\n%s\n", severity, filename, lnum, msg)
+                                local entries = {}
+                                if vim.tbl_isempty(selections) then
+                                    local entry = action_state.get_selected_entry()
+                                    if entry then
+                                        table.insert(entries, entry)
+                                    end
+                                else
+                                    entries = selections
+                                end
 
-                                vim.fn.setreg("+", composed)
-                                vim.notify("Diagnostic copied to clipboard", vim.log.levels.INFO)
+                                local lines = {}
+                                for _, entry in ipairs(entries) do
+                                    local msg = entry.text or "Sin mensaje"
+                                    local severity = entry.type or "Desconocido"
+                                    local filename = entry.filename or vim.api.nvim_buf_get_name(entry.bufnr)
+                                    local lnum = entry.lnum or 0
+                                    table.insert(
+                                        lines,
+                                        string.format("[%s] %s:%d\n%s\n", severity, filename, lnum, msg)
+                                    )
+                                end
+
+                                local final_text = table.concat(lines, "\n")
+                                vim.fn.setreg("+", final_text)
+                                local count = #entries
+                                local label = count == 1 and "diagnostic" or "diagnostics"
+                                vim.notify(
+                                    string.format("%d %s copied to clipboard.", count, label),
+                                    vim.log.levels.INFO
+                                )
                             end)
+
                             return true
                         end,
                     })

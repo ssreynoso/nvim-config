@@ -9,9 +9,6 @@ return {
             title_pos = "center",
             trim_prompt = true,
             prefer_width = 60,
-            win_options = {
-                winhighlight = "NormalFloat:DressingInputNormal,FloatBorder:DressingInputBorder",
-            },
         },
     },
 }
