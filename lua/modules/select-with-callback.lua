@@ -3,21 +3,49 @@ local M = {}
 function M.select_with_callback(cb)
     local persistence = require("persistence")
     local sessions = persistence.list()
+
+    local function notify(msg)
+        vim.notify(msg, vim.log.levels.INFO, { timeout = 8000 })
+    end
+
     if not sessions or vim.tbl_isempty(sessions) then
-        vim.notify("No hay sesiones guardadas.", vim.log.levels.INFO)
+        notify("❌ No hay sesiones guardadas.")
         return
     end
 
-    vim.ui.select(sessions, {
+    local cwd = vim.fn.getcwd()
+    local encoded_name = cwd:gsub(":", ""):gsub("[\\/]", "%%") .. ".vim"
+
+    local filtered = vim.tbl_filter(function(path)
+        return vim.fn.fnamemodify(path, ":t") == encoded_name
+    end, sessions)
+
+    if vim.tbl_isempty(filtered) then
+        notify("⚠️ No hay sesiones para este proyecto.")
+        return
+    end
+
+    -- 🚀 Si solo hay una sesión, la cargamos directo
+    if #filtered == 1 then
+        local session = filtered[1]
+        notify("📂 Cargando sesión automáticamente: " .. session)
+        persistence.load({ dir = session })
+        if cb then
+            cb(session)
+        end
+        return
+    end
+
+    -- 🔘 Si hay más de una, mostramos selección
+    vim.ui.select(filtered, {
         prompt = "Seleccionar sesión:",
         format_item = function(item)
-            local path = type(item) == "table" and item.dir or item
-            return vim.fn.fnamemodify(path, ":t")
+            return vim.fn.fnamemodify(item, ":t")
         end,
     }, function(choice)
         if choice then
-            local path = type(choice) == "table" and choice.dir or choice
-            persistence.load({ dir = path })
+            notify("📂 Cargando sesión: " .. choice)
+            persistence.load({ dir = choice })
             if cb then
                 cb(choice)
             end
