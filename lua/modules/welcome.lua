@@ -5,7 +5,7 @@ M.state = {
     buf = nil,
 }
 
-function M.show()
+function M.show(on_close)
     local lines = {
         "                                                                                              ",
         "                                                                                              ",
@@ -60,6 +60,14 @@ function M.show()
 
     M.state.win = win
     M.state.buf = buf
+
+    if on_close then
+        vim.api.nvim_create_autocmd("BufWipeout", {
+            buffer = buf,
+            once = true,
+            callback = on_close,
+        })
+    end
 end
 
 return M

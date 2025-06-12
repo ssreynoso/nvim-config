@@ -15,7 +15,7 @@ return {
 
         vim.keymap.set(
             "v",
-            "<C-q>",
+            "<leader>q",
             "<Plug>(comment_toggle_blockwise_visual)",
             { desc = "Comentar selección (blockwise)" }
         )

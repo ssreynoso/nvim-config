@@ -10,11 +10,17 @@ return {
         require("keymaps.nvim-tree").setup()
     end,
     config = function()
-        require("nvim-tree").setup({
+        local nvim_tree = require("nvim-tree")
+
+        nvim_tree.setup({
             view = {
                 side = "left",
                 width = 50,
                 preserve_window_proportions = true,
+            },
+            update_focused_file = {
+                enable = true,
+                update_root = false,
             },
             renderer = {
                 icons = {
@@ -26,18 +32,19 @@ return {
                     },
                 },
             },
-            update_focused_file = {
-                enable = true,
-                update_root = false,
-                ignore_list = {},
-            },
-            filters = {
-                git_ignored = false,
-                dotfiles = false,
-            },
-            git = {
-                timeout = 1500, -- 👈 aumentamos el timeout a 1.5s
-            },
+            on_attach = function()
+                vim.keymap.set("n", "<Tab>", function()
+                    local api = require("nvim-tree.api")
+                    local node = api.tree.get_node_under_cursor()
+
+                    if node and node.name == ".." then
+                        vim.notify("--> You can't navigate to a parent directory.", vim.log.levels.WARN)
+                        return
+                    end
+
+                    api.node.open.edit()
+                end, opts)
+            end,
         })
     end,
 }

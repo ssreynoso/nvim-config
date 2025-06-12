@@ -40,17 +40,7 @@ function M.setup()
     end, { desc = "Close NvimTree and return" })
 
     -- <Leader>pd: modo full explorer
-    vim.keymap.set("n", "<Leader>pd", function()
-        local view = require("nvim-tree.view")
-        last_win = vim.api.nvim_get_current_win()
-
-        if view.is_visible() then
-            vim.cmd("NvimTreeClose")
-        end
-
-        vim.cmd("NvimTreeOpen")
-        vim.cmd("wincmd o")
-    end, { desc = "Explorer full screen (like Ex)" })
+    vim.keymap.set("n", "<Leader>pd", function() end, { desc = "Explorer full screen (like Ex)" })
 end
 
 return M
