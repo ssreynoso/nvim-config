@@ -122,6 +122,19 @@ function M.setup()
                 floatter.state.help = nil
             end
         end
+
+        -- Cerrar welcome si está abierto
+        local ok2, welcome = pcall(require, "modules.welcome")
+        if ok2 and welcome.state and welcome.state.win then
+            if vim.api.nvim_win_is_valid(welcome.state.win) then
+                vim.api.nvim_win_close(welcome.state.win, true)
+                welcome.state.win = nil
+            end
+            if vim.api.nvim_buf_is_valid(welcome.state.buf) then
+                vim.api.nvim_buf_delete(welcome.state.buf, { force = true })
+                welcome.state.buf = nil
+            end
+        end
     end, { desc = "Smart close buffer" })
 
     -- Reabrir el último archivo cerrado

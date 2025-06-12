@@ -57,3 +57,6 @@ end, { desc = "Mover archivos con Telescope" })
 vim.keymap.set("n", "<C-p>", function()
     require("modules.pick_files").pick_and_open_files()
 end, { desc = "Seleccionar y abrir múltiples archivos" })
+
+-- Save all and quit Neovim
+vim.keymap.set("n", "<leader>qq", ":wqa<CR>", { desc = "Guardar y salir" })
