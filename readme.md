@@ -22,6 +22,7 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 - [Commenting (`lua/plugins/comment.lua`)](#commenting-luapluginscommentlua)
 - [Trouble (`lua/plugins/trouble.lua`)](#trouble-luapluginstroublelua)
 - [Zen Mode (`lua/plugins/zenmode.lua`)](#zen-mode-luapluginszenmodelua)
+- [Session (`lua/plugins/session.lua`)](#session-luapluginssessionlua)
 - [Git (`lua/plugins/git/neogit.lua`)](#git-luapluginsgitneogitlua)
 - [LSP (`lua/plugins/lsp/lspconfig.lua`)](#lsp-luapluginslsplspconfiglua)
 - [User commands (`lua/config/user-commands.lua`)](#user-commands-luaconfiguser-commandslua)
@@ -51,6 +52,9 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 | `<C-u>`     | normal        | Scroll up and center                        |
 | `n`         | normal        | Search current word forward and center      |
 | `N`         | normal        | Search current word backward and center     |
+| `<leader>mv` | normal | Move files with Telescope |
+| `<C-p>` | normal | Pick and open multiple files |
+| `<leader>qq` | normal | Save all and quit |
 
 ## Buffer management (`lua/keymaps/buffers.lua`)
 
@@ -71,6 +75,7 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 | `<leader>e`  | normal | Toggle/focus NvimTree     |
 | `<leader>E`  | normal | Close NvimTree and return |
 | `<leader>pd` | normal | Open NvimTree fullscreen  |
+| `<Tab>` | normal | Open item under cursor |
 
 ## Todo Comments (`lua/plugins/todo-comment.lua`)
 
@@ -156,12 +161,22 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 | ------------ | ------ | --------------- |
 | `<leader>zz` | normal | Toggle Zen Mode |
 
+## Session (`lua/plugins/session.lua`)
+
+| Key | Mode | Action |
+| --- | ---- | ------ |
+| `<leader>qs` | normal | Select session |
+| `<leader>ql` | normal | Load last session |
+| `<leader>qd` | normal | Stop session saving |
+
 ## Git (`lua/plugins/git/neogit.lua`)
 
 | Key | Mode | Action |
 | --- | ---- | ------ |
 | `<leader>gs` | normal | Open Neogit |
 | `<leader>gh` | normal | File history in Diffview |
+| `<C-x>` | normal (Diffview) | Close Diffview |
+| `<C-e>` | normal (Diffview) | Toggle file panel |
 
 ## LSP (`lua/plugins/lsp/lspconfig.lua`)
 
@@ -191,6 +206,7 @@ These mappings are available when an LSP client attaches:
 | `<leader>ar` | normal  | Insert arrow function and enter insert mode |
 | `<leader>fh` | normal  | Floating help prompt |
 | `:GitHelp`   | command | Show Git keymap help |
+| `:FloatHelp <topic>`   | command | Open help topic in floating window |
 ## Treesitter incremental selection (`lua/plugins/tree-sitter.lua`)
 
 | Key   | Mode   | Action                  |
