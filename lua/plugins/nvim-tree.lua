@@ -11,6 +11,7 @@ return {
     end,
     config = function()
         local nvim_tree = require("nvim-tree")
+        local api = require("nvim-tree.api")
 
         nvim_tree.setup({
             view = {
@@ -32,9 +33,14 @@ return {
                     },
                 },
             },
-            on_attach = function()
+            on_attach = function(bufnr)
+                -- ✅ Mapeos por defecto
+                api.config.mappings.default_on_attach(bufnr)
+
+                -- ✅ Opciones comunes para tus keymaps personalizados
+                local opts = { buffer = bufnr, noremap = true, silent = true, nowait = true }
+
                 vim.keymap.set("n", "<Tab>", function()
-                    local api = require("nvim-tree.api")
                     local node = api.tree.get_node_under_cursor()
 
                     if node and node.name == ".." then
