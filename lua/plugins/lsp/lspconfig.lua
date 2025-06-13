@@ -206,9 +206,19 @@ return {
         -- 🔧 Mover setup_handlers acá
         local lspconfig = require("lspconfig")
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
+        local util = require("lspconfig.util")
         local capabilities = cmp_nvim_lsp.default_capabilities()
 
         require("mason-lspconfig").setup_handlers({
+            ["eslint"] = function()
+                lspconfig.eslint.setup({
+                    capabilities = capabilities,
+                    root_dir = util.root_pattern("tsconfig.json", "package.json", ".git"),
+                    settings = {
+                        workingDirectory = { mode = "auto" },
+                    },
+                })
+            end,
             function(server_name)
                 lspconfig[server_name].setup({
                     capabilities = capabilities,
