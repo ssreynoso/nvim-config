@@ -11,8 +11,6 @@ return {
 
         local keymap = vim.keymap
 
-        local action_state = require("telescope.actions.state")
-
         vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("UserLspConfig", {}),
             callback = function(ev)
@@ -54,10 +52,19 @@ return {
                         previewer = previewers.new_buffer_previewer({
                             define_preview = function(self, entry, _)
                                 local bufnr = entry.bufnr
-                                local lnum = entry.lnum or 0
-                                local filename = entry.filename or vim.api.nvim_buf_get_name(bufnr)
+                                local lnum = (entry.lnum or 1) - 1
+                                local filename = entry.filename
                                 local lines = {}
 
+                                local source = "LSP"
+                                for _, diag in ipairs(vim.diagnostic.get(bufnr, { lnum = lnum })) do
+                                    if diag.message == entry.text then
+                                        source = diag.source or source
+                                        break
+                                    end
+                                end
+
+                                table.insert(lines, ("Origen: %s"):format(source))
                                 local context_lines = 7
                                 local ok, file_lines = pcall(vim.fn.readfile, filename)
                                 local start_line = 0
@@ -136,7 +143,6 @@ return {
                             end,
                         }),
                         attach_mappings = function(prompt_bufnr, map)
-                            local actions = require("telescope.actions")
                             local action_state = require("telescope.actions.state")
 
                             map("n", "y", function()
@@ -157,11 +163,20 @@ return {
                                 for _, entry in ipairs(entries) do
                                     local msg = entry.text or "Sin mensaje"
                                     local severity = entry.type or "Desconocido"
-                                    local filename = entry.filename or vim.api.nvim_buf_get_name(entry.bufnr)
-                                    local lnum = entry.lnum or 0
+                                    local filename = entry.filename
+                                    local lnum0 = (entry.lnum or 1) - 1
+
+                                    local source = "LSP"
+                                    for _, diag in ipairs(vim.diagnostic.get(entry.bufnr, { lnum = lnum0 })) do
+                                        if diag.message == entry.text then
+                                            source = diag.source or source
+                                            break
+                                        end
+                                    end
+
                                     table.insert(
                                         lines,
-                                        string.format("[%s] %s:%d\n%s\n", severity, filename, lnum, msg)
+                                        ("[%s/%s] %s:%d\n%s\n"):format(source, severity, filename, entry.lnum or 0, msg)
                                     )
                                 end
 
