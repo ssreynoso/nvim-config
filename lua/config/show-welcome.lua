@@ -14,8 +14,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
                                 "n",
                                 false
                             )
-                            -- vim.cmd("NvimTreeToggle")
-                            -- require("modules.close-non-file-buffers").close_non_file_buffers()
+                            vim.cmd("NvimTreeToggle")
+                            require("modules.close-non-file-buffers").close_non_file_buffers()
                         end,
                     })
                 end)
