@@ -9,12 +9,12 @@ vim.api.nvim_create_autocmd("VimEnter", {
                         group = group,
                         once = true,
                         callback = function()
-                            vim.api.nvim_feedkeys(
-                                vim.api.nvim_replace_termcodes("<leader>e", true, false, true),
+                            --[[ vim.api.nvim_feedkeys(
+                                vim.api.nvim_replace_termcodes("<leader>E", true, false, true),
                                 "n",
                                 false
-                            )
-                            vim.cmd("NvimTreeToggle")
+                            ) ]]
+                            -- vim.cmd("NvimTreeToggle")
                             require("modules.close-non-file-buffers").close_non_file_buffers()
                         end,
                     })
