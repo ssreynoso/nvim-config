@@ -25,7 +25,7 @@ return {
         local custom_actions = transform_mod({
             open_trouble_qflist = function(prompt_bufnr)
                 trouble.toggle("quickfix")
-            end,
+            end, -- Customizar cómo se muestran los nombres
         })
 
         telescope.setup({
@@ -38,8 +38,8 @@ return {
                 path_display = { "smart" },
                 mappings = {
                     i = {
-                        ["<C-k>"] = actions.move_selection_previous, -- move to prev result
-                        ["<C-j>"] = actions.move_selection_next, -- move to next result
+                        ["<C-k>"] = actions.move_selection_previous,
+                        ["<C-j>"] = actions.move_selection_next,
                         ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
                         ["<C-t>"] = trouble_telescope.open,
                     },
@@ -62,7 +62,6 @@ return {
                             ["<c-d>"] = require("telescope.actions").delete_buffer,
                         },
                     },
-                    -- Customizar cómo se muestran los nombres
                     entry_maker = function(entry)
                         local bufname = vim.api.nvim_buf_get_name(entry.bufnr)
                         local basename = vim.fn.fnamemodify(bufname, ":t")
