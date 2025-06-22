@@ -1,7 +1,8 @@
 {
   "diagnostics.globals": ["vim"],
     "diagnostics.disable": [
-        "redundant-return-value"
+        "redundant-return-value",
+        "missing-fields"
     ]
 }
 
