@@ -49,10 +49,10 @@ return {
 
         conform.setup({
             formatters_by_ft = {
-                javascript = { "eslint_d" },
-                typescript = { "eslint_d" },
-                javascriptreact = { "eslint_d" },
-                typescriptreact = { "eslint_d" },
+                javascript = { "prettier" },
+                typescript = { "prettier" },
+                javascriptreact = { "prettier" },
+                typescriptreact = { "prettier" },
                 svelte = { "prettier" },
                 css = { "prettier" },
                 html = { "prettier" },
