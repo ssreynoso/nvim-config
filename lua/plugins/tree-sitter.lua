@@ -1,26 +1,27 @@
--- ~/.config/nvim/ly ua/plugins/treesitter.lua
 return {
     "nvim-treesitter/nvim-treesitter",
     branch = "master",
     lazy = false,
     build = ":TSUpdate",
     config = function()
+        vim.g.skip_ts_context_commentstring_module = true
+
         require("nvim-treesitter.configs").setup({
             ensure_installed = {
                 "javascript",
                 "typescript",
-                "tsx", -- JSX/TSX (React)
+                "tsx",
                 "html",
                 "css",
                 "json",
-                "jsonc", -- para archivos como tsconfig.json o .eslintrc
-                "yaml", -- por ejemplo en workflows o configs
-                "lua", -- por tu config de neovim
-                "bash", -- útil para scripts y terminal
-                "markdown", -- para documentación o notas
+                "jsonc",
+                "yaml",
+                "lua",
+                "bash",
+                "markdown",
                 "markdown_inline",
-                "vim", -- ayuda con sintaxis de vimrc o plugins antiguos
-                "query", -- requerido por treesitter para plugins que analizan árboles
+                "vim",
+                "query",
             },
 
             highlight = {
@@ -39,11 +40,6 @@ return {
                     node_incremental = "grn",
                     node_decremental = "grm",
                 },
-            },
-
-            context_commentstring = {
-                enable = true,
-                enable_autocmd = false, -- dejalo en false si usás pre_hook
             },
         })
     end,
