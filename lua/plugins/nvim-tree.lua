@@ -16,7 +16,7 @@ return {
         nvim_tree.setup({
             view = {
                 side = "left",
-                width = 50,
+                width = 35,
                 preserve_window_proportions = true,
             },
             update_focused_file = {

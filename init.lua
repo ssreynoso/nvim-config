@@ -5,5 +5,8 @@ require("config.user-commands")
 require("config.lazy")
 require("config.options")
 
+-- Fixes
+require("fixes.treesitter-window-fix")
+
 -- Welcome
 require("config.show-welcome")
