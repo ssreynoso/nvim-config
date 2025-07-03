@@ -1,4 +1,3 @@
-
 return {
     "williamboman/mason.nvim",
     version = "1.11.0",
@@ -33,6 +32,7 @@ return {
             automatic_installation = false,
             ensure_installed = {
                 "ts_ls",
+                "eslint",
                 "html",
                 "cssls",
                 "tailwindcss",
@@ -68,8 +68,18 @@ return {
                     capabilities = capabilities,
                     root_dir = util.root_pattern("tsconfig.json", "package.json", ".git"),
                     settings = {
+                        -- habilita format & code actions
+                        format = { enable = true },
+                        codeActionOnSave = { enable = true, mode = "all" },
                         workingDirectory = { mode = "auto" },
                     },
+                    -- Fix All al guardar
+                    on_attach = function(_, bufnr)
+                        vim.api.nvim_create_autocmd("BufWritePre", {
+                            buffer = bufnr,
+                            command = "EslintFixAll",
+                        })
+                    end,
                 })
             end,
             function(server_name)
