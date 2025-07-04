@@ -89,7 +89,13 @@ return {
         -- set keymaps
         local keymap = vim.keymap -- for conciseness
 
-        keymap.set("n", "<leader>p", "<cmd>Telescope git_files<cr>", { desc = "Fuzzy find files in cwd" })
+        keymap.set("n", "<leader>p", function()
+            require("telescope.builtin").find_files({
+                hidden = true, -- incluir dotfiles
+                no_ignore = true, -- ignora .gitignore, .ignore, etc.
+                prompt_title = "Buscar archivos (incluye ocultos)",
+            })
+        end, { desc = "Buscar archivos (todos)" })
         keymap.set("n", "<leader>pf", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
         keymap.set("n", "<leader>ph", "<cmd>Telescope help_tags<cr>", { desc = "Find string under cursor in cwd" })
         keymap.set("n", "<leader>pt", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
@@ -98,8 +104,17 @@ return {
             require("telescope.builtin").find_files({
                 hidden = true,
                 no_ignore = true,
-                prompt_title = "Buscar .env",
-                find_command = { "fd", "--type", "f", "--hidden", "--no-ignore", "--glob", ".env*" },
+                prompt_title = "Buscar .env*",
+                search_dirs = { vim.loop.cwd() }, -- opcional, limita a tu cwd
+                find_command = (function()
+                    local bin = vim.fn.executable("fd") == 1 and "fd"
+                        or (vim.fn.executable("fdfind") == 1 and "fdfind")
+                        or nil -- dejar que Telescope elija lo que haya
+                    if bin then
+                        return { bin, "--type", "f", "--hidden", "--no-ignore", "-g", ".env*" }
+                    end
+                    -- Si no hay fd, Telescope caerá en rg/find automáticamente.
+                end)(),
             })
         end, { desc = "Buscar archivos .env*" })
 

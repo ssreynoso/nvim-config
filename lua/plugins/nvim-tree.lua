@@ -33,6 +33,10 @@ return {
                     },
                 },
             },
+            filters = {
+                dotfiles = false, -- muestra todos los “dotfiles”, incluido .env
+                git_ignored = false, -- opcional: también muestra ignorados por Git
+            },
             on_attach = function(bufnr)
                 -- ✅ Mapeos por defecto
                 api.config.mappings.default_on_attach(bufnr)
