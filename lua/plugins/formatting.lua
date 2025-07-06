@@ -66,7 +66,7 @@ return {
             },
             formatters = {
                 prettier = {
-                    prepend_args = prettier_args,
+                    prepend_args = vim.list_extend({ "--editorconfig" }, prettier_args),
                     prefer_local = "node_modules/.bin",
                 },
             },
@@ -84,5 +84,12 @@ return {
                 timeout_ms = 2000,
             })
         end, { desc = "Format file or range (in visual mode)" })
+
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            pattern = "*",
+            callback = function(args)
+                vim.bo[args.buf].fileformat = "unix"
+            end,
+        })
     end,
 }
