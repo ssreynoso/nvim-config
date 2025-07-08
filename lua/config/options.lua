@@ -61,8 +61,8 @@ vim.keymap.set("n", "<leader>tn", function()
     end)
 end, { desc = "Elegir shell para abrir terminal" })
 
--- Doble <Esc> para salir del modo terminal
-vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], { noremap = true, desc = "Salir del terminal con doble Escape" })
+-- Ctrl+Q para salir del modo terminal
+vim.keymap.set("t", "<C-q>", [[<C-\><C-n>]], { noremap = true, desc = "Salir del terminal con Ctrl+Q" })
 
 -- Borrar palabra completa
 vim.keymap.set("i", "<C-b>", "<C-w>", { desc = "Ctrl+Backspace borra palabra entera" })
