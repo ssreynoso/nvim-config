@@ -98,7 +98,9 @@ function M.toggle_terminal()
 end
 
 function M.toggle_note()
-    local note_path = vim.fn.stdpath("data") .. "/.nvim_notepad.md"
+    local cwd = vim.fn.getcwd()
+    local doc_dir = cwd .. "/documentation"
+    local note_path = doc_dir .. "/notepad.md"
     local buf
 
     for _, b in ipairs(vim.api.nvim_list_bufs()) do
@@ -109,6 +111,10 @@ function M.toggle_note()
     end
 
     if not buf then
+        if vim.fn.isdirectory(doc_dir) == 0 then
+            vim.fn.mkdir(doc_dir, "p")
+        end
+        
         if vim.fn.filereadable(note_path) == 0 then
             vim.fn.writefile({ "# 📒 Nota rápida", "" }, note_path)
         end
