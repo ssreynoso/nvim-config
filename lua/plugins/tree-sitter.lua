@@ -22,6 +22,7 @@ return {
                 "markdown_inline",
                 "vim",
                 "query",
+                "prisma",
             },
 
             highlight = {
