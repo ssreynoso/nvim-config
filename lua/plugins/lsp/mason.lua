@@ -66,7 +66,7 @@ return {
             ["eslint"] = function()
                 lspconfig.eslint.setup({
                     capabilities = capabilities,
-                    root_dir = util.root_pattern("tsconfig.json", "package.json", ".git"),
+                    root_dir = util.root_pattern(".eslintrc.js", ".eslintrc.json", ".eslintrc", "package.json"),
                     settings = {
                         -- habilita format & code actions
                         format = { enable = true },
@@ -80,6 +80,19 @@ return {
                             command = "EslintFixAll",
                         })
                     end,
+                })
+            end,
+            ["cssls"] = function()
+                lspconfig.cssls.setup({
+                    capabilities = capabilities,
+                    root_dir = util.root_pattern("package.json", ".git"),
+                    filetypes = { "css", "scss", "less" }, -- No tsx/jsx
+                })
+            end,
+            ["tailwindcss"] = function()
+                lspconfig.tailwindcss.setup({
+                    capabilities = capabilities,
+                    root_dir = util.root_pattern("tailwind.config.js", "tailwind.config.ts", "postcss.config.js", "package.json"),
                 })
             end,
             function(server_name)
