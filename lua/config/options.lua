@@ -73,3 +73,8 @@ vim.keymap.set("x", "P", '"_dP', { noremap = true, desc = "Pegar antes sin sobre
 
 -- Duplicate line
 vim.keymap.set("n", "<leader>d", "yyp", { desc = "Duplicar línea" })
+
+-- Code folding configuration
+vim.opt.foldmethod = "indent"  -- Usa indentación para crear folds
+vim.opt.foldlevel = 99         -- Abre todos los folds por defecto
+vim.opt.foldenable = true      -- Habilita folding

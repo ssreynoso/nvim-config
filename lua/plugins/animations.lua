@@ -1,4 +1,5 @@
-return {
+return {}
+--[[ return {
     -- {
     --     "karb94/neoscroll.nvim",
     --     config = function()
@@ -46,4 +47,4 @@ return {
             smear_between_neighbor_lines = true,
         },
     },
-}
+} ]]
