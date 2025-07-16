@@ -42,7 +42,11 @@ function M.setup()
         }
 
         pickers
-            .new({}, {
+            .new({
+                layout_strategy = "center",
+                layout_config = { width = 0.4, height = 0.5 },
+                initial_mode = "normal",
+            }, {
                 prompt_title = "Elegí el lenguaje",
                 finder = finders.new_table({
                     results = langs,
