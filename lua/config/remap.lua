@@ -1,6 +1,9 @@
 vim.g.mapleader = " " -- Use space as <leader>
 vim.g.maplocalleader = "\\" -- Use space as <leader>
 
+-- Insert mode escape alternative
+vim.keymap.set("i", "jk", "<Esc>", { desc = "Exit insert mode" })
+
 -- Clipboard
 -- vim.keymap.set({'n', 'x'}, 'gy', '"+y') -- Copy to clipboard
 -- vim.keymap.set({'n', 'x'}, 'gp', '"+p') -- Paste from clipboard
