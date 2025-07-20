@@ -10,10 +10,14 @@ local state = {
 
 local function create_floating_window(opts)
     opts = opts or {}
+
     local width = opts.width or math.floor(vim.o.columns * 0.8)
     local height = opts.height or math.floor(vim.o.lines * 0.8)
-    local col = math.floor((vim.o.columns - width) / 2)
-    local row = math.floor((vim.o.lines - height) / 2)
+
+    -- 👉 Si se proporcionan opts.col / opts.row los usamos;
+    --    de lo contrario, calculamos centro como antes
+    local col = opts.col or math.floor((vim.o.columns - width) / 2)
+    local row = opts.row or math.floor((vim.o.lines - height) / 2)
 
     local buf = opts.buf
     if not (buf and vim.api.nvim_buf_is_valid(buf)) then
@@ -35,7 +39,6 @@ local function create_floating_window(opts)
     local win = vim.api.nvim_open_win(buf, true, win_opts)
 
     vim.api.nvim_set_hl(0, "MyCustomBorder", { fg = "#0E2148", bg = "#000000" })
-
     vim.api.nvim_win_set_option(
         win,
         "winhighlight",
@@ -114,7 +117,7 @@ function M.toggle_note()
         if vim.fn.isdirectory(doc_dir) == 0 then
             vim.fn.mkdir(doc_dir, "p")
         end
-        
+
         if vim.fn.filereadable(note_path) == 0 then
             vim.fn.writefile({ "# 📒 Nota rápida", "" }, note_path)
         end

@@ -1,3 +1,5 @@
+vim.env.PATH = vim.env.PATH .. ":/home/ssreynoso/.claude/local/node_modules/.bin"
+
 -- Config
 require("config.remap")
 require("config.auto-commands")

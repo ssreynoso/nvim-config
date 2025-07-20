@@ -60,3 +60,8 @@ end, { desc = "Seleccionar y abrir múltiples archivos" })
 
 -- Save all and quit Neovim
 vim.keymap.set("n", "<leader>qq", ":wqa<CR>", { desc = "Guardar y salir" })
+
+-- Toggle summary with Claude
+vim.keymap.set("n", "<leader>su", function()
+    require("modules.claude_summary").toggle_summary()
+end, { desc = "Toggle Claude Summary" })

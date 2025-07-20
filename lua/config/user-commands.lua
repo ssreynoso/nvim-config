@@ -95,3 +95,6 @@ vim.keymap.set("n", "<leader>fh", function()
         end
     end)
 end, { desc = "Ayuda flotante" })
+
+-- Claude Summary
+require("modules.claude_summary").setup()
