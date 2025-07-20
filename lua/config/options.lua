@@ -64,9 +64,6 @@ end, { desc = "Elegir shell para abrir terminal" })
 -- Ctrl+Q para salir del modo terminal
 vim.keymap.set("t", "<C-q>", [[<C-\><C-n>]], { noremap = true, desc = "Salir del terminal con Ctrl+Q" })
 
--- Borrar palabra completa
-vim.keymap.set("i", "<C-b>", "<C-w>", { desc = "Ctrl+Backspace borra palabra entera" })
-
 -- Visual: evitar sobrescribir al hacer p o P
 vim.keymap.set("x", "p", '"_dp', { noremap = true, desc = "Pegar después sin sobrescribir" })
 vim.keymap.set("x", "P", '"_dP', { noremap = true, desc = "Pegar antes sin sobrescribir" })
@@ -75,6 +72,6 @@ vim.keymap.set("x", "P", '"_dP', { noremap = true, desc = "Pegar antes sin sobre
 vim.keymap.set("n", "<leader>d", "yyp", { desc = "Duplicar línea" })
 
 -- Code folding configuration
-vim.opt.foldmethod = "indent"  -- Usa indentación para crear folds
-vim.opt.foldlevel = 99         -- Abre todos los folds por defecto
-vim.opt.foldenable = true      -- Habilita folding
+vim.opt.foldmethod = "indent" -- Usa indentación para crear folds
+vim.opt.foldlevel = 99 -- Abre todos los folds por defecto
+vim.opt.foldenable = true -- Habilita folding
