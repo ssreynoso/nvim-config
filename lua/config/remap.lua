@@ -3,6 +3,7 @@ vim.g.maplocalleader = "\\" -- Use space as <leader>
 
 -- Insert mode escape alternative
 vim.keymap.set("i", "jk", "<Esc>", { desc = "Exit insert mode" })
+vim.keymap.set("v", "jk", "<Esc>", { desc = "Exit visualization mode" })
 
 -- Clipboard
 -- vim.keymap.set({'n', 'x'}, 'gy', '"+y') -- Copy to clipboard
