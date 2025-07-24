@@ -62,7 +62,7 @@ vim.keymap.set("n", "<leader>tn", function()
 end, { desc = "Elegir shell para abrir terminal" })
 
 -- Ctrl+Q para salir del modo terminal
-vim.keymap.set("t", "<C-q>", [[<C-\><C-n>]], { noremap = true, desc = "Salir del terminal con Ctrl+Q" })
+vim.keymap.set("t", "jk", [[<C-\><C-n>]], { noremap = true, desc = "Salir del terminal con Ctrl+Q" })
 
 -- Visual: evitar sobrescribir al hacer p o P
 vim.keymap.set("x", "p", '"_dp', { noremap = true, desc = "Pegar después sin sobrescribir" })
