@@ -62,7 +62,21 @@ return {
                         end,
                     },
                 },
-                lualine_x = { "encoding", "fileformat", "filetype" },
+                lualine_x = {
+                    {
+                        -- indicador Copilot ON / OFF
+                        function()
+                            return vim.g.copilot_enabled == 1 and " " or " "
+                            --   = icono “Copilot on”,    = “Copilot off” (Nerd Font)
+                        end,
+                        color = function()
+                            return vim.g.copilot_enabled == 1 and { fg = colors.light_violet } or { fg = colors.orange }
+                        end,
+                    },
+                    "encoding",
+                    "fileformat",
+                    "filetype",
+                },
                 lualine_y = { "progress" },
                 lualine_z = {
                     "location",
