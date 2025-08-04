@@ -1,9 +1,10 @@
 vim.g.mapleader = " " -- Use space as <leader>
 vim.g.maplocalleader = "\\" -- Use space as <leader>
 
--- Insert mode escape alternative
+-- Escape to normal mode
 vim.keymap.set("i", "jk", "<Esc>", { desc = "Exit insert mode" })
 vim.keymap.set("v", "jk", "<Esc>", { desc = "Exit visualization mode" })
+vim.keymap.set("t", "jk", [[<C-\><C-n>]], { noremap = true, desc = "Exit terminal mode" })
 
 -- Clipboard
 -- vim.keymap.set({'n', 'x'}, 'gy', '"+y') -- Copy to clipboard
