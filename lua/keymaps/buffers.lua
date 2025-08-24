@@ -146,13 +146,9 @@ function M.setup()
         end
     end, { desc = "Reabrir último buffer cerrado" })
 
-    -- Navegación estilo tabs
-    vim.keymap.set("n", "<Tab>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
-    vim.keymap.set("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
-
-    -- Reordenar
-    vim.keymap.set("n", "<Leader><Right>", "<cmd>BufferLineMoveNext<CR>", { desc = "Move buffer right" })
-    vim.keymap.set("n", "<Leader><Left>", "<cmd>BufferLineMovePrev<CR>", { desc = "Move buffer left" })
+    -- Navegación entre buffers (sin BufferLine)
+    vim.keymap.set("n", "<Tab>", "<cmd>bnext<CR>", { desc = "Next buffer" })
+    vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
 end
 
 return M

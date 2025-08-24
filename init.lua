@@ -7,6 +7,9 @@ require("config.user-commands")
 require("config.lazy")
 require("config.options")
 
+-- Keymaps
+require("keymaps.buffers").setup()
+
 -- Fixes
 require("fixes.treesitter-window-fix")
 
