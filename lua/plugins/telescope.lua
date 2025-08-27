@@ -50,6 +50,7 @@ return {
                     sort_mru = true,
                     ignore_current_buffer = true,
                     previewer = false,
+                    initial_mode = "normal",
                     layout_config = {
                         width = 0.5,
                         height = 0.7,
@@ -80,6 +81,9 @@ return {
                             icon_hl_group = icon_hl,
                         }
                     end,
+                },
+                treesitter = {
+                    initial_mode = "normal",
                 },
             },
         })
@@ -140,5 +144,10 @@ return {
         vim.keymap.set("n", "<leader>f", function()
             require("telescope.builtin").treesitter()
         end, { desc = "Buscar símbolos con Treesitter en el buffer actual" })
+
+        -- Keymaps con toggle
+        local toggles = require("modules.telescope_toggles")
+        vim.keymap.set("n", "<leader>b", toggles.toggle_buffers, { desc = "Toggle Buffers" })
+        vim.keymap.set("n", "<leader>m", toggles.toggle_treesitter, { desc = "Toggle Símbolos (treesitter)" })
     end,
 }
