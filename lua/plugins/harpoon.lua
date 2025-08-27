@@ -63,12 +63,12 @@ return {
                 attach_mappings = function(prompt_bufnr, map)
                     current_picker = { prompt_bufnr = prompt_bufnr }
 
-                    -- Resetear la variable cuando el picker se cierre
-                    local original_close = actions.close
-                    actions.close = function(bufnr)
-                        current_picker = nil
-                        original_close(bufnr)
-                    end
+                    -- Hook para limpiar cuando el picker se cierre
+                    vim.api.nvim_buf_attach(prompt_bufnr, false, {
+                        on_detach = function()
+                            current_picker = nil
+                        end,
+                    })
 
                     actions.select_default:replace(function()
                         local selection = action_state.get_selected_entry()
