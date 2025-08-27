@@ -22,7 +22,7 @@ return {
                 current_picker = nil
                 return
             end
-            
+
             local pickers = require("telescope.pickers")
             local finders = require("telescope.finders")
             local conf = require("telescope.config").values
@@ -81,7 +81,10 @@ return {
                     local function remove_selected_item()
                         local selection = action_state.get_selected_entry()
                         if selection and selection.value and selection.value.idx then
+                            local file_path = selection.value.path
+                            local filename = vim.fn.fnamemodify(file_path, ":t")
                             list:remove_at(selection.value.idx)
+                            vim.notify("Removed '" .. filename .. "' from Harpoon", vim.log.levels.WARN, { title = "Harpoon" })
                             current_picker = nil -- Resetear antes de cerrar
                             actions.close(prompt_bufnr)
                             vim.defer_fn(function()
@@ -100,10 +103,18 @@ return {
             picker:find()
         end
 
-        -- Agregar archivo
-        map("n", "<C-h>", function()
+        -- Agregar archivo con notificación
+        local function add_file_with_notification()
             harpoon:list():add()
-        end, { desc = "Harpoon add file" })
+            local current_file = vim.fn.expand("%:t")
+            if current_file ~= "" then
+                vim.notify("Added '" .. current_file .. "' to Harpoon", vim.log.levels.INFO, { title = "Harpoon" })
+            else
+                vim.notify("Added current buffer to Harpoon", vim.log.levels.INFO, { title = "Harpoon" })
+            end
+        end
+
+        map("n", "<C-h>", add_file_with_notification, { desc = "Harpoon add file" })
 
         -- Menú con Telescope (fallback al nativo)
         map("n", "<C-e>", function()
