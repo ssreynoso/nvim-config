@@ -100,7 +100,9 @@ return {
                 prompt_title = "Buscar archivos (incluye ocultos)",
             })
         end, { desc = "Buscar archivos (todos)" })
-        keymap.set("n", "<leader>pf", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
+        keymap.set("n", "<leader>pf", function()
+            require("modules.grep_files").grep_and_open_files()
+        end, { desc = "Find string in cwd (multi-select)" })
         keymap.set("n", "<leader>ph", "<cmd>Telescope help_tags<cr>", { desc = "Find string under cursor in cwd" })
         keymap.set("n", "<leader>pt", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
         keymap.set("n", "<leader>pb", "<cmd>Telescope buffers<cr>", { desc = "Buscar entre buffers abiertos" })
