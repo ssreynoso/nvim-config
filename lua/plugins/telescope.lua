@@ -69,13 +69,18 @@ return {
                         local icon, icon_hl = devicons.get_icon(basename, nil, { default = true })
                         local is_modified = vim.api.nvim_buf_get_option(entry.bufnr, "modified")
                         local modified = is_modified and " [+]" or ""
+                        
+                        -- Smart path display como en Ctrl+P
+                        local smart_path = require("telescope.utils").transform_path({
+                            path_display = { "smart" }
+                        }, bufname)
 
                         return {
                             value = entry,
                             display = function()
-                                return string.format(" %s  %s%s", icon, basename, modified)
+                                return string.format(" %s  %s%s", icon, smart_path, modified)
                             end,
-                            ordinal = basename .. modified,
+                            ordinal = smart_path .. modified,
                             bufnr = entry.bufnr,
                             icon = icon,
                             icon_hl_group = icon_hl,
