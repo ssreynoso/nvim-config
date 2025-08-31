@@ -34,15 +34,30 @@ return {
                 },
             },
             filters = {
-                dotfiles = false, -- muestra todos los “dotfiles”, incluido .env
+                dotfiles = false, -- muestra todos los "dotfiles", incluido .env
                 git_ignored = false, -- opcional: también muestra ignorados por Git
             },
             on_attach = function(bufnr)
                 -- ✅ Mapeos por defecto
                 api.config.mappings.default_on_attach(bufnr)
 
+                -- ✅ Cross-project copy module
+                local cross_project = require("modules.cross-project-copy")
+
                 -- ✅ Opciones comunes para tus keymaps personalizados
                 local opts = { buffer = bufnr, noremap = true, silent = true, nowait = true }
+
+                -- ✅ Copiar para usar entre proyectos (Cross-project copy)
+                vim.keymap.set("n", "<leader>cc", function()
+                    local node = api.tree.get_node_under_cursor()
+                    cross_project.copy_for_cross_project(node)
+                end, vim.tbl_extend("force", opts, { desc = "Copy for cross-project use" }))
+
+                -- ✅ Pegar desde otros proyectos (Cross-project paste)
+                vim.keymap.set("n", "<leader>pp", function()
+                    local node = api.tree.get_node_under_cursor()
+                    cross_project.paste_from_cross_project(node, api)
+                end, vim.tbl_extend("force", opts, { desc = "Paste from cross-project copy" }))
 
                 vim.keymap.set("n", "<Tab>", function()
                     local node = api.tree.get_node_under_cursor()
