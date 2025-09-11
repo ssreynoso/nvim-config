@@ -9,6 +9,7 @@ return {
             build = "make",
         },
         "folke/todo-comments.nvim",
+        "xiyaowong/telescope-emoji.nvim",
     },
     config = function()
         local telescope = require("telescope")
@@ -106,6 +107,7 @@ return {
         })
 
         telescope.load_extension("fzf")
+        telescope.load_extension("emoji")
 
         -- set keymaps
         local keymap = vim.keymap -- for conciseness
@@ -163,6 +165,30 @@ return {
         vim.keymap.set("n", "<leader>f", function()
             require("telescope.builtin").treesitter()
         end, { desc = "Buscar símbolos con Treesitter en el buffer actual" })
+
+        -- Emoji picker
+        vim.keymap.set("n", "<leader>i", function()
+            require("telescope").extensions.emoji.emoji({
+                attach_mappings = function(prompt_bufnr, map)
+                    local function emoji_insert()
+                        local selection = require("telescope.actions.state").get_selected_entry()
+                        require("telescope.actions").close(prompt_bufnr)
+                        
+                        if selection and selection.value then
+                            -- Copiar el emoji al registro del sistema
+                            vim.fn.setreg('*', selection.value)
+                            vim.fn.setreg('+', selection.value)
+                            -- Pegar inmediatamente
+                            vim.api.nvim_feedkeys('"*p', 'n', false)
+                        end
+                    end
+                    
+                    map("i", "<CR>", emoji_insert)
+                    map("n", "<CR>", emoji_insert)
+                    return true
+                end,
+            })
+        end, { desc = "Pick emoji" })
 
         -- Keymaps con toggle
         local toggles = require("modules.telescope_toggles")
