@@ -84,7 +84,11 @@ return {
                             local file_path = selection.value.path
                             local filename = vim.fn.fnamemodify(file_path, ":t")
                             list:remove_at(selection.value.idx)
-                            vim.notify("Removed '" .. filename .. "' from Harpoon", vim.log.levels.WARN, { title = "Harpoon" })
+                            vim.notify(
+                                "Removed '" .. filename .. "' from Harpoon",
+                                vim.log.levels.WARN,
+                                { title = "Harpoon" }
+                            )
                             current_picker = nil -- Resetear antes de cerrar
                             actions.close(prompt_bufnr)
                             vim.defer_fn(function()
@@ -94,7 +98,7 @@ return {
                     end
 
                     map("i", "<C-d>", remove_selected_item)
-                    map("n", "d", remove_selected_item)
+                    map("n", "<C-d>", remove_selected_item)
 
                     return true
                 end,

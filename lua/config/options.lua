@@ -50,7 +50,29 @@ vim.o.cursorline = true
 vim.o.scrolloff = 10
 
 -- Virtual text
-vim.diagnostic.config({ virtual_text = true })
+local sev = vim.diagnostic.severity
+
+vim.diagnostic.config({
+    -- Definición de signos sin :sign define
+    signs = {
+        text = {
+            [sev.ERROR] = "",
+            [sev.WARN] = "",
+            [sev.INFO] = "",
+            [sev.HINT] = "󰌵",
+        },
+        -- si querés colorear el número de línea
+        numhl = {
+            [sev.ERROR] = "DiagnosticSignError",
+            [sev.WARN] = "DiagnosticSignWarn",
+            [sev.INFO] = "DiagnosticSignInfo",
+            [sev.HINT] = "DiagnosticSignHint",
+        },
+    },
+    underline = true,
+    virtual_text = false,
+    severity_sort = true,
+})
 
 -- Terminal
 local terminal_selector = require("modules.terminal_selector")
