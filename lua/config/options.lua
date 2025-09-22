@@ -2,6 +2,9 @@ vim.opt.number = true -- Show the number of the lines.
 vim.opt.relativenumber = true
 vim.opt.mouse = "a" -- Allow the use of the mouse (?
 vim.opt.showmode = false
+
+-- Font configuration
+vim.opt.guifont = "monospace:h12:b" -- :b makes the font bold
 vim.opt.ignorecase = true -- When search, ignores uppercases. 'two' -> ['two', 'tWo', 'TWo', ...]
 vim.opt.smartcase = true -- When search, use the uppercase if we put it. 'tWo' -> ['tWo']
 vim.opt.hlsearch = false -- Disable highlight of the previous search.
