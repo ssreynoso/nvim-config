@@ -21,6 +21,7 @@ lua/
 ### Plugin Management Pattern
 
 Each plugin file in `lua/plugins/` returns a Lazy.nvim spec table:
+
 ```lua
 return {
     "plugin/name",
@@ -41,17 +42,21 @@ return {
 ## Development Commands
 
 ### Plugin Management
+
 - **Install plugins**: `:Lazy install`
 - **Update plugins**: `:Lazy update`
 - **Plugin status**: `:Lazy`
 
 ### Configuration Testing
+
 - **Reload config**: `:source %` (when editing Lua files)
 - **Check health**: `:checkhealth`
 - **LSP info**: `<leader>si` or `:LspInfo`
 
 ### Dependencies
+
 The configuration requires:
+
 - **Quicktype**: `npm install -g quicktype` (for JSON-to-code conversion)
 - **Git**: For version control operations and plugin management
 - **Node.js**: For LSP servers and formatting tools managed by Mason
@@ -59,22 +64,26 @@ The configuration requires:
 ## Custom Features
 
 ### Git Workflow
+
 - Custom git branch selector: `<leader>gb`
-- File history with Diffview: `<leader>gh` 
+- File history with Diffview: `<leader>gh`
 - Git status with Neogit: `<leader>gs`
 
 ### File Operations
+
 - Smart file picker: `<C-p>` (opens multiple files with Telescope)
 - File moving utility: `<leader>mv` (moves files with Telescope)
 - Project directory explorer: `<leader>e` (nvim-tree)
 
 ### Development Tools
+
 - Format code: `<leader>I` (conform.nvim with smart Prettier detection)
 - Run linter: `<leader>l` (nvim-lint)
 - Code actions: `<leader>ca` (LSP-based)
 - Diagnostics: `<leader>D` (custom Telescope picker with clipboard integration)
 
 ### Custom Modules Location
+
 - **Git utilities**: `lua/modules/git-branch-selector.lua`, `lua/modules/git_help.lua`
 - **File operations**: `lua/modules/move_files.lua`, `lua/modules/pick_files.lua`
 - **UI components**: `lua/modules/floatter/`, `lua/modules/loader.lua`
@@ -83,21 +92,25 @@ The configuration requires:
 ## Configuration Files
 
 ### Entry Point
+
 - **init.lua**: Main entry point, loads all configuration modules
 - **lua/config/lazy.lua**: Lazy.nvim bootstrap and plugin imports
 
 ### Key Configuration Files
+
 - **lua/config/options.lua**: Neovim options and some terminal/editing keymaps
 - **lua/config/remap.lua**: Core keymaps and leader key configuration
 - **lua/config/auto-commands.lua**: Autocommands for various behaviors
 - **lua/config/user-commands.lua**: Custom user commands
 
 ### Theme Customization
+
 The Catppuccin theme is heavily customized in `lua/plugins/catpuccin.lua` with extensive LSP semantic token highlighting and color overrides.
 
 ## Performance Considerations
 
 This configuration is optimized for performance through:
+
 - **Aggressive lazy loading**: Most plugins load on specific events
 - **Modular architecture**: Plugin configurations are split into focused files
 - **Custom utilities**: Optimized custom modules instead of heavy plugins where possible
@@ -115,3 +128,4 @@ This configuration is optimized for performance through:
 - **Git status**: `<leader>gs`
 
 For a complete keymap reference, see the existing `readme.md` file in the repository.
+

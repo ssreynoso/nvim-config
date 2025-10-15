@@ -70,3 +70,8 @@ vim.keymap.set("n", "<leader>qq", ":wqa<CR>", { desc = "Guardar y salir" })
 vim.keymap.set("n", "<leader>su", function()
     require("modules.claude_summary").toggle_summary()
 end, { desc = "Toggle Claude Summary" })
+
+-- Open markdown file in Obsidian
+vim.keymap.set("n", "<leader>md", function()
+    require("modules.obsidian_opener").open_in_obsidian()
+end, { desc = "Abrir archivo Markdown en Obsidian" })
