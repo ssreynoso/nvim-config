@@ -1,10 +1,11 @@
-# CLAUDE.md
+ # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Architecture Overview
 
 This is a highly customized Neovim configuration built with modern Lua-based plugin management. The configuration uses **Lazy.nvim** for plugin management with strategic lazy loading for optimal performance.
+HOla como te va
 
 ### Directory Structure
 
