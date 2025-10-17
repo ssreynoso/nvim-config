@@ -75,3 +75,14 @@ end, { desc = "Toggle Claude Summary" })
 vim.keymap.set("n", "<leader>md", function()
     require("modules.obsidian_opener").open_in_obsidian()
 end, { desc = "Abrir archivo Markdown en Obsidian" })
+
+-- Open file explorer in current file's directory
+vim.keymap.set("n", "<leader>ex", function()
+    local file_dir = vim.fn.expand("%:p:h")
+    if file_dir and file_dir ~= "" then
+        vim.fn.jobstart({ "xdg-open", file_dir }, { detach = true })
+        vim.notify("Abriendo explorador en: " .. file_dir, vim.log.levels.INFO)
+    else
+        vim.notify("No hay archivo actual", vim.log.levels.WARN)
+    end
+end, { desc = "Abrir explorador de archivos en la carpeta actual" })
