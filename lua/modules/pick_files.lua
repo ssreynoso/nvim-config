@@ -6,10 +6,6 @@ local path_utils = require("modules.path")
 local function smart_find_files(opts)
     opts = opts or {}
 
-    -- Forzamos un sorter válido aunque fzf esté roto
-    local sorters = require("telescope.sorters")
-    opts.sorter = sorters.get_fuzzy_file()
-
     -- Defaults sanos para repos grandes
     opts.initial_mode = "insert"
     opts.follow = true
