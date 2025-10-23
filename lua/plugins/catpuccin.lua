@@ -51,18 +51,46 @@ return {
                 local sand = "#FFF1D5"
                 local telescopeBorder = "#0E2148"
 
-                -- Personalización de colores
-                vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = telescopeBorder }) -- color del borde
-                vim.api.nvim_set_hl(0, "FloatBorder", { fg = telescopeBorder })
-                vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = telescopeBorder })
-                vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = telescopeBorder })
-                vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = telescopeBorder })
+                -- Gradiente suave diagonal: naranja (top-left) -> violeta (bottom-right)
+                -- Evitando rosas, usando transición: naranja -> dorado -> cobre -> púrpura cálido -> violeta
+                local gradient = {
+                    orange_start = "#FBA834",      -- Inicio: naranja puro (top-left)
+                    orange_warm = "#FF9F4A",       -- Naranja cálido
+                    golden = "#FFB366",            -- Dorado
+                    amber = "#E8A86B",             -- Ámbar
+                    copper = "#C99883",            -- Cobre (evita rosa)
+                    warm_purple = "#B088A0",       -- Púrpura cálido
+                    purple_blue = "#A276D8",       -- Violeta azulado
+                    violet_end = "#9a64ff",        -- Fin: violeta puro (bottom-right)
+                }
 
-                vim.api.nvim_set_hl(0, "TelescopeTitle", { fg = orange }) -- título general
-                vim.api.nvim_set_hl(0, "FloatTitle", { fg = orange }) -- título general
-                vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = orange })
-                vim.api.nvim_set_hl(0, "TelescopeResultsTitle", { fg = orange })
-                vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = orange })
+                -- Aplicar gradiente a diferentes secciones de Telescope
+                -- PromptBorder (arriba): dominan naranjas y dorados
+                vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = gradient.orange_start })
+                vim.api.nvim_set_hl(0, "TelescopePromptPrefix", { fg = gradient.orange_warm })
+
+                -- ResultsBorder (medio): más violeta, menos rosa
+                vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = gradient.purple_blue })
+
+                -- PreviewBorder (abajo): dominan púrpuras y violetas
+                vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = gradient.violet_end })
+
+                -- Bordes generales
+                vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = gradient.purple_blue })
+                vim.api.nvim_set_hl(0, "FloatBorder", { fg = telescopeBorder })
+
+                -- Títulos con gradiente
+                vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = gradient.orange_start, bold = true })
+                vim.api.nvim_set_hl(0, "TelescopeResultsTitle", { fg = gradient.amber, bold = true })
+                vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = gradient.purple_blue, bold = true })
+                vim.api.nvim_set_hl(0, "TelescopeTitle", { fg = orange })
+                vim.api.nvim_set_hl(0, "FloatTitle", { fg = orange })
+
+                -- Selección con color del gradiente
+                vim.api.nvim_set_hl(0, "TelescopeSelection", { fg = white, bg = "#1a1a1a", bold = true })
+                vim.api.nvim_set_hl(0, "TelescopeSelectionCaret", { fg = gradient.orange_warm, bg = "#1a1a1a" })
+                vim.api.nvim_set_hl(0, "TelescopeMatching", { fg = gradient.golden, bold = true })
+
                 vim.api.nvim_set_hl(0, "TelescopeNormal", { fg = white })
 
                 return {
