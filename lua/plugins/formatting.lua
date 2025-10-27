@@ -47,6 +47,26 @@ return {
             }
         end
 
+        -- Función helper para ejecutar ESLint fix all
+        local function eslint_fix_all(bufnr)
+            local eslint_client = vim.lsp.get_clients({ bufnr = bufnr, name = "eslint" })[1]
+            if not eslint_client then
+                return
+            end
+
+            local params = {
+                command = "eslint.applyAllFixes",
+                arguments = {
+                    {
+                        uri = vim.uri_from_bufnr(bufnr),
+                        version = vim.lsp.util.buf_versions[bufnr],
+                    },
+                },
+            }
+
+            eslint_client.request_sync("workspace/executeCommand", params, 1000, bufnr)
+        end
+
         conform.setup({
             formatters_by_ft = {
                 javascript = { "prettier" },
@@ -70,11 +90,16 @@ return {
                     prefer_local = "node_modules/.bin",
                 },
             },
-            format_on_save = {
-                lsp_fallback = true,
-                async = false,
-                timeout_ms = 2000,
-            },
+            format_on_save = function(bufnr)
+                -- Ejecutar ESLint fix all ANTES de formatear con Prettier
+                eslint_fix_all(bufnr)
+
+                return {
+                    lsp_fallback = true,
+                    async = false,
+                    timeout_ms = 2000,
+                }
+            end,
         })
 
         vim.keymap.set({ "n", "v" }, "<leader>I", function()
