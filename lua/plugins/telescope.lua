@@ -1,6 +1,6 @@
 return {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    branch = "master",
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons",
@@ -100,6 +100,10 @@ return {
     },
 
     config = function()
+        -- Workaround para bug de Neovim 0.11 con str_byteindex
+        -- https://github.com/nvim-telescope/telescope.nvim/issues/3395
+        package.loaded["telescope.utils"] = nil
+
         local telescope = require("telescope")
         local actions = require("telescope.actions")
         local transform_mod = require("telescope.actions.mt").transform_mod
