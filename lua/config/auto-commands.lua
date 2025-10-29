@@ -5,3 +5,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.hl.on_yank()
     end,
 })
+
+-- Usar parser de json para archivos jsonc (workaround para problemas de instalación de jsonc)
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = "*.jsonc",
+    callback = function()
+        vim.bo.filetype = "json"
+    end,
+})

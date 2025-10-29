@@ -14,7 +14,7 @@ return {
                 "html",
                 "css",
                 "json",
-                "jsonc",
+                -- "jsonc", -- Comentado temporalmente debido a problemas de descarga
                 "yaml",
                 "lua",
                 "bash",
@@ -23,6 +23,12 @@ return {
                 "vim",
                 "query",
                 "prisma",
+            },
+
+            -- Compilar desde código fuente en lugar de descargar binarios precompilados
+            install = {
+                prefer_git = true,
+                compilers = { "gcc", "clang" },
             },
 
             highlight = {
