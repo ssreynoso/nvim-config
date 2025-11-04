@@ -45,7 +45,6 @@ return {
             ensure_installed = {
                 "prettier",
                 "stylua",
-                "eslint_d",
             },
             auto_update = false,
             run_on_start = true,
