@@ -127,6 +127,8 @@ return {
                 layout_strategy = "horizontal",
                 layout_config = { horizontal = { width = 0.9 } },
                 path_display = { "smart" },
+                -- Bordes finos
+                borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 
                 -- 🔧 Asegurá sorters funcionales incluso sin fzf
                 file_sorter = require("telescope.sorters").get_fuzzy_file,

@@ -29,7 +29,7 @@ return {
                 cmp = true,
                 gitsigns = true,
                 nvimtree = true,
-                telescope = true,
+                telescope = false, -- Desactivado para usar colores personalizados
                 treesitter = true,
                 notify = false,
                 mini = false,
@@ -49,47 +49,43 @@ return {
                 local white = "#ffffff"
                 local light_blue = "#B2D8CE"
                 local sand = "#FFF1D5"
-                local telescopeBorder = "#0E2148"
+                local telescopeBorder = "#4d2297"
 
-                -- Gradiente suave diagonal: naranja (top-left) -> violeta (bottom-right)
-                -- Evitando rosas, usando transición: naranja -> dorado -> cobre -> púrpura cálido -> violeta
+                -- Colores simplificados: solo naranja y violeta
                 local gradient = {
-                    orange_start = "#FBA834",      -- Inicio: naranja puro (top-left)
-                    orange_warm = "#FF9F4A",       -- Naranja cálido
-                    golden = "#FFB366",            -- Dorado
-                    amber = "#E8A86B",             -- Ámbar
-                    copper = "#C99883",            -- Cobre (evita rosa)
-                    warm_purple = "#B088A0",       -- Púrpura cálido
-                    purple_blue = "#A276D8",       -- Violeta azulado
-                    violet_end = "#9a64ff",        -- Fin: violeta puro (bottom-right)
+                    orange = "#FBA834", -- Naranja
+                    violet = "#9a64ff", -- Violeta
                 }
 
-                -- Aplicar gradiente a diferentes secciones de Telescope
-                -- PromptBorder (arriba): dominan naranjas y dorados
-                vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = gradient.orange_start })
-                vim.api.nvim_set_hl(0, "TelescopePromptPrefix", { fg = gradient.orange_warm })
+                -- Bordes de Telescope: naranja y violeta (todos los lados)
+                -- Prompt (naranja)
+                vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = telescopeBorder, bold = false })
+                vim.api.nvim_set_hl(0, "TelescopePromptNormal", { fg = white, bg = "#000000" })
+                vim.api.nvim_set_hl(0, "TelescopePromptPrefix", { fg = gradient.orange })
 
-                -- ResultsBorder (medio): más violeta, menos rosa
-                vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = gradient.purple_blue })
+                -- Results (violeta)
+                -- vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = violet })
+                vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { fg = white, bg = "#000000" })
 
-                -- PreviewBorder (abajo): dominan púrpuras y violetas
-                vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = gradient.violet_end })
+                -- Preview (violeta)
+                -- vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = violet })
+                vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { fg = white, bg = "#000000" })
 
                 -- Bordes generales
-                vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = gradient.purple_blue })
-                vim.api.nvim_set_hl(0, "FloatBorder", { fg = telescopeBorder })
+                vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = telescopeBorder, bold = false })
+                vim.api.nvim_set_hl(0, "FloatBorder", { fg = telescopeBorder, bold = false })
 
-                -- Títulos con gradiente
-                vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = gradient.orange_start, bold = true })
-                vim.api.nvim_set_hl(0, "TelescopeResultsTitle", { fg = gradient.amber, bold = true })
-                vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = gradient.purple_blue, bold = true })
+                -- Títulos
+                vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = gradient.orange, bold = true })
+                vim.api.nvim_set_hl(0, "TelescopeResultsTitle", { fg = orange, bold = true })
+                vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = orange, bold = true })
                 vim.api.nvim_set_hl(0, "TelescopeTitle", { fg = orange })
                 vim.api.nvim_set_hl(0, "FloatTitle", { fg = orange })
 
-                -- Selección con color del gradiente
+                -- Selección
                 vim.api.nvim_set_hl(0, "TelescopeSelection", { fg = white, bg = "#1a1a1a", bold = true })
-                vim.api.nvim_set_hl(0, "TelescopeSelectionCaret", { fg = gradient.orange_warm, bg = "#1a1a1a" })
-                vim.api.nvim_set_hl(0, "TelescopeMatching", { fg = gradient.golden, bold = true })
+                vim.api.nvim_set_hl(0, "TelescopeSelectionCaret", { fg = gradient.orange, bg = "#1a1a1a" })
+                vim.api.nvim_set_hl(0, "TelescopeMatching", { fg = gradient.orange, bold = true })
 
                 vim.api.nvim_set_hl(0, "TelescopeNormal", { fg = white })
 
@@ -143,9 +139,9 @@ return {
                     ["@type"] = { fg = light_blue },
 
                     -- JSX (React)
-                    ["@type.tsx"] = { fg = light_orange }, -- <Component>
+                    ["@type.tsx"] = { fg = light_orange },     -- <Component>
                     ["@tag.builtin.tsx"] = { fg = "#73ffc5" }, -- HTML: <div>
-                    ["@tag.tsx"] = { fg = light_orange }, -- <>
+                    ["@tag.tsx"] = { fg = light_orange },      -- <>
                     ["@variable"] = { fg = white },
                     ["@variable.builtin"] = { fg = white },
                     ["@variable.parameter"] = { fg = white },
@@ -156,7 +152,7 @@ return {
                     ["@variable.member"] = { fg = light_orange },
                     ["@lsp.type.property.typescript"] = { fg = light_orange },
                     ["@lsp.type.member"] = { fg = light_orange }, -- opcional
-                    ["@property"] = { fg = light_orange }, -- fallback común
+                    ["@property"] = { fg = light_orange },        -- fallback común
 
                     -- Attributes
                     ["@_jsx_attribute.tsx"] = { fg = violet, italic = false },
