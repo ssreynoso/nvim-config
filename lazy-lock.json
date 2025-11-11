@@ -47,10 +47,6 @@
         "branch": "main",
         "commit": "fcea7ff883235d9024dc41e638f164a450c14ca2"
     },
-    "harpoon": {
-        "branch": "harpoon2",
-        "commit": "ed1f853847ffd04b2b61c314865665e1dadf22c7"
-    },
     "lazy.nvim": {
         "branch": "main",
         "commit": "db067881fff0fd4be8c00e5bde7492e0e1c77a2f"
