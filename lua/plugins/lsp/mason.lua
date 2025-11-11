@@ -38,6 +38,7 @@ return {
                 "prismals",
                 "rust_analyzer",
                 "pyright",
+                "astro",
             },
         })
 
@@ -57,7 +58,12 @@ return {
 
         -- Configuraciones específicas por server
         vim.lsp.config.eslint = {
-            root_markers = { ".eslintrc.js", ".eslintrc.json", ".eslintrc", "package.json" },
+            root_markers = { ".eslintrc.js", ".eslintrc.json", ".eslintrc.cjs", "eslint.config.js", "eslint.config.mjs" },
+            root_dir = function(fname)
+                -- Solo activar ESLint si hay configuración explícita
+                local root_markers = { ".eslintrc.js", ".eslintrc.json", ".eslintrc.cjs", "eslint.config.js", "eslint.config.mjs", ".eslintrc" }
+                return util.root_pattern(unpack(root_markers))(fname)
+            end,
             settings = {
                 format = { enable = true },
                 codeActionOnSave = { enable = true, mode = "all" },
@@ -106,7 +112,17 @@ return {
                 "scss",
                 "less",
                 "svelte",
+                "astro",
             },
+        }
+
+        vim.lsp.config.astro = {
+            root_markers = { "package.json", "astro.config.mjs", "astro.config.js" },
+        }
+
+        vim.lsp.config.ts_ls = {
+            root_markers = { "package.json", "tsconfig.json", "jsconfig.json" },
+            filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
         }
     end,
 }
