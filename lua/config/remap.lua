@@ -86,3 +86,32 @@ vim.keymap.set("n", "<leader>ex", function()
         vim.notify("No hay archivo actual", vim.log.levels.WARN)
     end
 end, { desc = "Abrir explorador de archivos en la carpeta actual" })
+
+-- Navigate between windows with wrapping (cyclic behavior)
+vim.keymap.set("n", "<C-w>h", function()
+    local current_win = vim.fn.winnr()
+    vim.cmd("wincmd h")
+    -- Si no nos movimos (no hay ventana a la izquierda), ir al extremo derecho
+    if vim.fn.winnr() == current_win then
+        vim.cmd("wincmd l")
+        -- Seguir yendo a la derecha hasta llegar al extremo
+        while vim.fn.winnr() ~= current_win do
+            current_win = vim.fn.winnr()
+            vim.cmd("wincmd l")
+        end
+    end
+end, { desc = "Ir a ventana izquierda (cíclico)" })
+
+vim.keymap.set("n", "<C-w>l", function()
+    local current_win = vim.fn.winnr()
+    vim.cmd("wincmd l")
+    -- Si no nos movimos (no hay ventana a la derecha), ir al extremo izquierdo
+    if vim.fn.winnr() == current_win then
+        vim.cmd("wincmd h")
+        -- Seguir yendo a la izquierda hasta llegar al extremo
+        while vim.fn.winnr() ~= current_win do
+            current_win = vim.fn.winnr()
+            vim.cmd("wincmd h")
+        end
+    end
+end, { desc = "Ir a ventana derecha (cíclico)" })
