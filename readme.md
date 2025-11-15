@@ -137,12 +137,12 @@ This repository contains my Neovim configuration. Below is a reference of the cu
 | Within Telescope prompt | insert | `<C-j>` next, `<C-k>` previous, `<C-q>` send to quickfix, `<C-t>` open in Trouble |
 ## Commenting (`lua/plugins/comment.lua`)
 
-| Key         | Mode   | Action                      |
-| ----------- | ------ | --------------------------- |
-| `<leader>q` | normal | Toggle comment on line      |
-| `<C-q>`     | normal | Toggle comment on line      |
-| `<C-q>`     | visual | Toggle comment on selection |
-| `<leader>q` | visual | Toggle comment on selection |
+| Key         | Mode   | Action                                  |
+| ----------- | ------ | --------------------------------------- |
+| `<leader>q` | normal | Toggle comentario inline en línea       |
+| `<leader>q` | visual | Toggle comentario inline en selección   |
+| `<leader>Q` | normal | Toggle comentario de bloque en línea    |
+| `<leader>Q` | visual | Toggle comentario de bloque en selección |
 
 ## Trouble (`lua/plugins/trouble.lua`)
 
