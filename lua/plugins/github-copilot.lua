@@ -7,8 +7,14 @@ return {
         vim.g.copilot_no_tab_map = true
         vim.g.copilot_assume_mapped = true -- evita que Copilot se queje
 
-        -- 2. Vuelvo a poner <Tab> a mano (acepta todo)
-        vim.keymap.set("i", "<Tab>", "copilot#Accept('<CR>')", { expr = true, silent = true, replace_keycodes = false })
+        -- 2. Vuelvo a poner <Tab> a mano (acepta sugerencia o inserta tab)
+        vim.keymap.set("i", "<Tab>", function()
+            if vim.fn["copilot#GetDisplayedSuggestion"]().text ~= "" then
+                vim.api.nvim_feedkeys(vim.fn["copilot#Accept"]("\r"), "n", true)
+            else
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", true)
+            end
+        end, { silent = true })
 
         -- 3. Nuevo atajo: aceptar palabra
         vim.keymap.set("i", "<C-l>", "copilot#AcceptWord()", { expr = true, silent = true })
