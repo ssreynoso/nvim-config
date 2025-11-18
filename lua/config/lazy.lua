@@ -17,6 +17,10 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
+-- Mostrar loader mientras se cargan los plugins
+local loader = require("modules.loader")
+local hide = loader.show_loader("⏳ Cargando plugins...")
+
 -- Setup lazy.nvim
 require("lazy").setup({
     spec = {
@@ -27,4 +31,21 @@ require("lazy").setup({
     },
     install = { colorscheme = { "nightfly" } },
     checker = { enabled = true, notify = false },
+    performance = {
+        cache = {
+            enabled = true,
+        },
+        rtp = {
+            disabled_plugins = {
+                "gzip",
+                "tarPlugin",
+                "tohtml",
+                "tutor",
+                "zipPlugin",
+            },
+        },
+    },
 })
+
+-- Ocultar el loader después de que todo esté cargado
+vim.schedule(hide)
