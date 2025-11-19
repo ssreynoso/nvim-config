@@ -16,10 +16,13 @@ return {
             end
         end, { silent = true })
 
-        -- 3. Nuevo atajo: aceptar palabra
+        -- 3. Shift-Tab para des-indentar en modo insert
+        vim.keymap.set("i", "<S-Tab>", "<C-d>", { silent = true, desc = "Des-indentar" })
+
+        -- 4. Nuevo atajo: aceptar palabra
         vim.keymap.set("i", "<C-l>", "copilot#AcceptWord()", { expr = true, silent = true })
 
-        -- 4. Toggle function for copilot autocompletion
+        -- 5. Toggle function for copilot autocompletion
         local function toggle_copilot()
             if vim.g.copilot_enabled == 0 then
                 vim.cmd("Copilot enable")
@@ -32,10 +35,10 @@ return {
             end
         end
 
-        -- 5. Keymap para toggle
+        -- 6. Keymap para toggle
         vim.keymap.set("n", "<leader>co", toggle_copilot, { desc = "Toggle GitHub Copilot" })
 
-        -- 6. Initialize copilot as enabled by default
+        -- 7. Initialize copilot as enabled by default
         vim.g.copilot_enabled = 1
     end,
 }

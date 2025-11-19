@@ -33,6 +33,10 @@ vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Mover selección abaj
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Mover línea arriba", silent = true })
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Mover selección arriba", silent = true })
 
+-- Indentar en modo visual (mantiene la selección)
+vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indentar selección", silent = true })
+vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Des-indentar selección", silent = true })
+
 -- Guardar
 vim.keymap.set("n", "<leader>s", "<cmd>w<cr>", { desc = "Guardar archivo" })
 
