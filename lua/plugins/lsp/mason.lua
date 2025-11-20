@@ -26,7 +26,7 @@ return {
 
         mason_lspconfig.setup({
             ensure_installed = {
-                -- ts_ls se maneja con typescript-tools.nvim
+                "vtsls", -- TypeScript/JavaScript LSP
                 "eslint",
                 "html",
                 "cssls",
@@ -115,7 +115,6 @@ return {
             root_markers = { "package.json", "astro.config.mjs", "astro.config.js" },
         }
 
-        -- ts_ls se maneja con typescript-tools.nvim, no con lspconfig
-        -- Pero se mantiene en ensure_installed para que Mason lo instale
+        -- vtsls se configura en typescript-vtsls.lua
     end,
 }
