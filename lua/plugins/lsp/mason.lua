@@ -116,5 +116,12 @@ return {
         }
 
         -- vtsls se configura en typescript-vtsls.lua
+
+        -- Deshabilitar ts_ls ya que usamos vtsls
+        vim.lsp.config.ts_ls = function()
+            return {
+                enabled = false,
+            }
+        end
     end,
 }
