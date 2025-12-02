@@ -98,3 +98,14 @@ end, { desc = "Ayuda flotante" })
 
 -- Claude Summary
 require("modules.claude_summary").setup()
+
+-- Copy file path
+vim.api.nvim_create_user_command("CopyPath", function()
+    local path = vim.fn.expand("%:p")
+    if path == "" then
+        vim.notify("No hay archivo actual", vim.log.levels.WARN)
+        return
+    end
+    vim.fn.setreg("+", path)
+    vim.notify("Path copiado: " .. path, vim.log.levels.INFO)
+end, { desc = "Copiar path del archivo actual al clipboard" })
